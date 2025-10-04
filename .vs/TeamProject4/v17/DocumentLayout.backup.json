@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|d:\\asp. net core\\quan_ly_khach_san-master\\quan_ly_khach_san-master\\teamproject4\\models\\hoteldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|solutionrelative:teamproject4\\models\\hoteldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|d:\\asp. net core\\quan_ly_khach_san-master\\quan_ly_khach_san-master\\teamproject4\\filters\\customauthorizationattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|solutionrelative:teamproject4\\filters\\customauthorizationattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 16,
           "Children": [
             {
               "$type": "Bookmark",
@@ -74,6 +83,31 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HotelDbContext.cs",
+              "DocumentMoniker": "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\TeamProject4\\Models\\HotelDbContext.cs",
+              "RelativeDocumentMoniker": "TeamProject4\\Models\\HotelDbContext.cs",
+              "ToolTip": "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\TeamProject4\\Models\\HotelDbContext.cs",
+              "RelativeToolTip": "TeamProject4\\Models\\HotelDbContext.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAA3wC8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T14:12:30.867Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CustomAuthorizationAttribute.cs",
+              "DocumentMoniker": "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\TeamProject4\\Filters\\CustomAuthorizationAttribute.cs",
+              "RelativeDocumentMoniker": "TeamProject4\\Filters\\CustomAuthorizationAttribute.cs",
+              "ToolTip": "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\TeamProject4\\Filters\\CustomAuthorizationAttribute.cs",
+              "RelativeToolTip": "TeamProject4\\Filters\\CustomAuthorizationAttribute.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T14:11:33.701Z"
             }
           ]
         },
