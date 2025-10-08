@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\TeamProject4\\TeamProject4.csproj": {}
+    "E:\\STUDY\\LTWEB-2025\\QuanLyKhachSan\\TeamProject4\\TeamProject4.csproj": {}
   },
   "projects": {
-    "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\TeamProject4\\TeamProject4.csproj": {
+    "E:\\STUDY\\LTWEB-2025\\QuanLyKhachSan\\TeamProject4\\TeamProject4.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\TeamProject4\\TeamProject4.csproj",
+        "projectUniqueName": "E:\\STUDY\\LTWEB-2025\\QuanLyKhachSan\\TeamProject4\\TeamProject4.csproj",
         "projectName": "TeamProject4",
-        "projectPath": "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\TeamProject4\\TeamProject4.csproj",
-        "packagesPath": "C:\\Users\\VU THANH HAI\\.nuget\\packages\\",
-        "outputPath": "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\TeamProject4\\obj\\",
+        "projectPath": "E:\\STUDY\\LTWEB-2025\\QuanLyKhachSan\\TeamProject4\\TeamProject4.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "E:\\STUDY\\LTWEB-2025\\QuanLyKhachSan\\TeamProject4\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\VisualStudio 2022\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\VU THANH HAI\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
