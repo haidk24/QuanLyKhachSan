@@ -231,7 +231,7 @@ namespace Team_Project_4.Models
                 entity.Property(e => e.Map).HasColumnName("MAP");
 
                 entity.Property(e => e.Ghichu)
-                    .HasColumnType("text")
+                    .HasMaxLength(100)
                     .HasColumnName("GHICHU");
 
                 entity.Property(e => e.Maloaiphong).HasColumnName("MALOAIPHONG");

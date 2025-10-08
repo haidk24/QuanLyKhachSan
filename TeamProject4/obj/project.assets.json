@@ -2021,11 +2021,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\TeamProject4\\TeamProject4.csproj",
+      "projectUniqueName": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\TeamProject4.csproj",
       "projectName": "TeamProject4",
-      "projectPath": "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\TeamProject4\\TeamProject4.csproj",
+      "projectPath": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\TeamProject4.csproj",
       "packagesPath": "C:\\Users\\VU THANH HAI\\.nuget\\packages\\",
-      "outputPath": "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\TeamProject4\\obj\\",
+      "outputPath": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\VisualStudio 2022\\Shared\\NuGetPackages"

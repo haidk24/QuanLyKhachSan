@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7ye4njqlIjc=",
+  "dgSpecHash": "9gxIyoghBZY=",
   "success": true,
-  "projectFilePath": "D:\\ASP. NET CORE\\Quan_Ly_Khach_San-master\\Quan_Ly_Khach_San-master\\TeamProject4\\TeamProject4.csproj",
+  "projectFilePath": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\TeamProject4.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\VU THANH HAI\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\VU THANH HAI\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
