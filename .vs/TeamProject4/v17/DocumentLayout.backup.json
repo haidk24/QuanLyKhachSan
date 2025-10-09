@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "D:\\ASP. NET CORE\\QuanLyKhachSan\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|d:\\asp. net core\\quanlykhachsan\\teamproject4\\models\\hoteldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|solutionrelative:teamproject4\\models\\hoteldbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|d:\\asp. net core\\quanlykhachsan\\teamproject4\\views\\createcustomer\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|solutionrelative:teamproject4\\views\\createcustomer\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|d:\\asp. net core\\quanlykhachsan\\teamproject4\\views\\shared\\_managerlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|solutionrelative:teamproject4\\views\\shared\\_managerlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|d:\\asp. net core\\quanlykhachsan\\teamproject4\\models\\khachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|solutionrelative:teamproject4\\models\\khachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|d:\\asp. net core\\quanlykhachsan\\teamproject4\\controllers\\createcustomercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|solutionrelative:teamproject4\\controllers\\createcustomercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 16,
+          "SelectedChildIndex": 19,
           "Children": [
             {
               "$type": "Bookmark",
@@ -82,15 +94,51 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "HotelDbContext.cs",
-              "DocumentMoniker": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Models\\HotelDbContext.cs",
-              "RelativeDocumentMoniker": "TeamProject4\\Models\\HotelDbContext.cs",
-              "ToolTip": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Models\\HotelDbContext.cs",
-              "RelativeToolTip": "TeamProject4\\Models\\HotelDbContext.cs",
-              "ViewState": "AgIAAMUAAAAAAAAAAAAmwOoAAAAtAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "_ManagerLayout.cshtml",
+              "DocumentMoniker": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Views\\Shared\\_ManagerLayout.cshtml",
+              "RelativeDocumentMoniker": "TeamProject4\\Views\\Shared\\_ManagerLayout.cshtml",
+              "ToolTip": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Views\\Shared\\_ManagerLayout.cshtml",
+              "RelativeToolTip": "TeamProject4\\Views\\Shared\\_ManagerLayout.cshtml",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAAHIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-08T15:58:40.273Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CreateCustomerController.cs",
+              "DocumentMoniker": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Controllers\\CreateCustomerController.cs",
+              "RelativeDocumentMoniker": "TeamProject4\\Controllers\\CreateCustomerController.cs",
+              "ToolTip": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Controllers\\CreateCustomerController.cs",
+              "RelativeToolTip": "TeamProject4\\Controllers\\CreateCustomerController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAA5wDEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-03T14:12:30.867Z",
+              "WhenOpened": "2025-10-08T15:55:54.417Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Khachhang.cs",
+              "DocumentMoniker": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Models\\Khachhang.cs",
+              "RelativeDocumentMoniker": "TeamProject4\\Models\\Khachhang.cs",
+              "ToolTip": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Models\\Khachhang.cs",
+              "RelativeToolTip": "TeamProject4\\Models\\Khachhang.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAcwCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-08T15:55:45.289Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Views\\CreateCustomer\\Create.cshtml",
+              "RelativeDocumentMoniker": "TeamProject4\\Views\\CreateCustomer\\Create.cshtml",
+              "ToolTip": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Views\\CreateCustomer\\Create.cshtml",
+              "RelativeToolTip": "TeamProject4\\Views\\CreateCustomer\\Create.cshtml",
+              "ViewState": "AgIAADcAAAAAAAAAAAAqwE0AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-08T15:55:33.947Z",
               "EditorCaption": ""
             }
           ]

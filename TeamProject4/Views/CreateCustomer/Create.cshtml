@@ -62,6 +62,22 @@
         </div>
     </form>
 </div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Tự động focus vào trường đầu tiên có lỗi khi submit
+        $('form').on('submit', function (e) {
+            if (!$(this).valid()) { // Nếu form không hợp lệ
+                e.preventDefault(); // Ngăn gửi lên server
+                const firstError = $('.input-validation-error').first();
+                if (firstError.length) {
+                    firstError.focus();
+                }
+            }
+        });
+    </script>
+}
+
 
 
 
