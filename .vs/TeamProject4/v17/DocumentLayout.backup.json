@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\ASP. NET CORE\\QuanLyKhachSan\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|d:\\asp. net core\\quanlykhachsan\\teamproject4\\models\\khachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|solutionrelative:teamproject4\\models\\khachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|d:\\asp. net core\\quanlykhachsan\\teamproject4\\views\\createcustomer\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|solutionrelative:teamproject4\\views\\createcustomer\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|d:\\asp. net core\\quanlykhachsan\\teamproject4\\views\\shared\\_managerlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|solutionrelative:teamproject4\\views\\shared\\_managerlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|d:\\asp. net core\\quanlykhachsan\\teamproject4\\models\\khachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|solutionrelative:teamproject4\\models\\khachhang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B65D3F6F-B7FB-49EF-B95D-5CA761900FB9}|TeamProject4\\TeamProject4.csproj|d:\\asp. net core\\quanlykhachsan\\teamproject4\\controllers\\createcustomercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -26,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 19,
+          "SelectedChildIndex": 18,
           "Children": [
             {
               "$type": "Bookmark",
@@ -94,7 +94,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "_ManagerLayout.cshtml",
               "DocumentMoniker": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Views\\Shared\\_ManagerLayout.cshtml",
               "RelativeDocumentMoniker": "TeamProject4\\Views\\Shared\\_ManagerLayout.cshtml",
@@ -118,28 +118,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Khachhang.cs",
               "DocumentMoniker": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Models\\Khachhang.cs",
               "RelativeDocumentMoniker": "TeamProject4\\Models\\Khachhang.cs",
               "ToolTip": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Models\\Khachhang.cs",
               "RelativeToolTip": "TeamProject4\\Models\\Khachhang.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAcwCIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-08T15:55:45.289Z"
+              "WhenOpened": "2025-10-08T15:55:45.289Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Create.cshtml",
               "DocumentMoniker": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Views\\CreateCustomer\\Create.cshtml",
               "RelativeDocumentMoniker": "TeamProject4\\Views\\CreateCustomer\\Create.cshtml",
               "ToolTip": "D:\\ASP. NET CORE\\QuanLyKhachSan\\TeamProject4\\Views\\CreateCustomer\\Create.cshtml",
               "RelativeToolTip": "TeamProject4\\Views\\CreateCustomer\\Create.cshtml",
-              "ViewState": "AgIAADcAAAAAAAAAAAAqwE0AAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAqwE0AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-08T15:55:33.947Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-08T15:55:33.947Z"
             }
           ]
         },
