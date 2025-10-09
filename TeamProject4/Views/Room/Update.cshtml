@@ -2,7 +2,15 @@
 @model Phong
 @{
     ViewData["Title"] = "Update room";
-    Layout = "_ManagerLayout";
+    string userRole = Context.Session.GetString("UserRole");
+    if (userRole == "Manager")
+    {
+       Layout = "_ManagerLayout";
+    }
+    else if(userRole == "Staff")
+    {
+        Layout = "_StaffLayout";
+    }
 }
 <div class="text-center">
     <h2 class="display-4">CẬP NHẬT PHÒNG</h2>

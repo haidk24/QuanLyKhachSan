@@ -1,7 +1,15 @@
 ﻿@model Phong
 @{
     ViewData["Title"] = "Create room";
-    Layout = "_ManagerLayout";
+    string userRole = Context.Session.GetString("UserRole");
+    if (userRole == "Manager")
+    {
+       Layout = "_ManagerLayout";
+    }
+    else if(userRole == "Staff")
+    {
+        Layout = "_StaffLayout";
+    }
 }
 <div class="text-center">
     <h2 class="display-4">TẠO PHÒNG MỚI</h2>

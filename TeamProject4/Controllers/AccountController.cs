@@ -92,6 +92,7 @@ namespace Team_Project_4.Controllers
                 {
                     // Nhân viên role
                     HttpContext.Session.SetString("accname", check.Tentknv);
+                    HttpContext.Session.SetString("UserRole", "Staff");
                     var name = HttpContext.Session.GetString("accname");
                     ViewBag.accname = name;
                     return RedirectToAction("Index", "Staff");
@@ -100,6 +101,7 @@ namespace Team_Project_4.Controllers
                 {
                     // Quản lí role
                     HttpContext.Session.SetString("accname", check.Tentknv);
+                    HttpContext.Session.SetString("UserRole", "Manager");
                     var name = HttpContext.Session.GetString("accname");
                     ViewBag.accname = name;
                     return RedirectToAction("Index", "Manager");
