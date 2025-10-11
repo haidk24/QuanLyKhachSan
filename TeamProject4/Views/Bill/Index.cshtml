@@ -78,6 +78,10 @@
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Mahd" class="btn btn-info">Chi tiết</a>
+                    <form asp-action="Delete" asp-route-id="@item.Mahd" method="post" class="d-inline"
+                          onsubmit="return confirm('Xác nhận xóa hóa đơn này?');">
+                        <button type="submit" class="btn btn-danger">Xóa</button>
+                    </form>
                 </td>
             </tr>
         }
