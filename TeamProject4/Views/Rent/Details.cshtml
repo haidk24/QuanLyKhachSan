@@ -1,15 +1,7 @@
 ﻿@model Team_Project_4.ViewModels.RentDetailsList
 @{
     ViewData["Title"] = "Detail Rent";
-    string userRole = Context.Session.GetString("UserRole");
-    if (userRole == "Manager")
-    {
-       Layout = "_ManagerLayout";
-    }
-    else if(userRole == "Staff")
-    {
-        Layout = "_StaffLayout";
-    }
+    Layout = "_ManagerLayout";
 }
 <h2 style="text-align: center;">CHI TIẾT PHIẾU THUÊ PHÒNG</h2>
 

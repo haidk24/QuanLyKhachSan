@@ -32,7 +32,7 @@ namespace Team_Project_4.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=EMPHI\\SQLEXPRESS;Initial Catalog=QLKHACHSAN;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
+                optionsBuilder.UseSqlServer("Data Source=LAPTOP-LHTIMU8S;Initial Catalog=QLKHACHSAN;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False");
             }
         }
 
@@ -231,8 +231,8 @@ namespace Team_Project_4.Models
                 entity.Property(e => e.Map).HasColumnName("MAP");
 
                 entity.Property(e => e.Ghichu)
-                    .HasMaxLength(100)
-                    .HasColumnName("GHICHU");
+                     .HasMaxLength(100)
+                     .HasColumnName("GHICHU");
 
                 entity.Property(e => e.Maloaiphong).HasColumnName("MALOAIPHONG");
 

@@ -1,14 +1,6 @@
 ﻿@model Team_Project_4.ViewModels.test1
 @{
-    string userRole = Context.Session.GetString("UserRole");
-    if (userRole == "Manager")
-    {
-       Layout = "_ManagerLayout";
-    }
-    else if(userRole == "Staff")
-    {
-        Layout = "_StaffLayout";
-    }
+    Layout = "_ManagerLayout";
 }
 
 <h2 style="text-align:center">LẬP HÓA ĐƠN</h2>

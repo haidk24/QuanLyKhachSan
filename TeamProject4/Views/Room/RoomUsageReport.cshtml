@@ -1,15 +1,7 @@
 ﻿@model List<Phong>
 @{
     ViewData["Title"] = "Room Usage Report";
-    string userRole = Context.Session.GetString("UserRole");
-    if (userRole == "Manager")
-    {
-       Layout = "_ManagerLayout";
-    }
-    else if(userRole == "Staff")
-    {
-        Layout = "_StaffLayout";
-    }
+    Layout = "_ManagerLayout";
 }
 <style>
     /* Style for the month dropdown */

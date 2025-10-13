@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Team_Project_4.Models
 {
-    public partial class Taikhoan 
+    public partial class Taikhoan
     {
         public int Matknv { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập tên tài khoản")]
@@ -14,6 +15,8 @@ namespace Team_Project_4.Models
         public string Mktk { get; set; } = null!;
         public int Manv { get; set; }
 
-        public virtual Nhanvien ManvNavigation { get; set; } = null!;
+        // FIX: Làm nullable, bỏ null! để không required validation. [NotMapped] nếu không cần EF load navigation khi insert
+        [NotMapped] // Bỏ qua validation/insert cho navigation (chỉ dùng FK Manv)
+        public virtual Nhanvien? ManvNavigation { get; set; } = null; // Nullable, không required
     }
 }

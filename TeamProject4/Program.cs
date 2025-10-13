@@ -1,17 +1,13 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Globalization;
-using Team_Project_4.InterfacesRepositories;
 using Team_Project_4.Models;
 using Team_Project_4.Repositories;
+using Team_Project_4.InterfacesRepositories;
 
 var builder = WebApplication.CreateBuilder(args);
-var defaultCulture = new CultureInfo("vi-VN");
-CultureInfo.DefaultThreadCurrentCulture = defaultCulture;
-CultureInfo.DefaultThreadCurrentUICulture = defaultCulture;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
