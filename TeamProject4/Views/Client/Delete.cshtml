@@ -2,15 +2,7 @@
 
 @{
     ViewData["Title"] = "Delete";
-    string userRole = Context.Session.GetString("UserRole");
-    if (userRole == "Manager")
-    {
-       Layout = "_ManagerLayout";
-    }
-    else if(userRole == "Staff")
-    {
-        Layout = "_StaffLayout";
-    }
+    Layout = "_ManagerLayout";
 }
 
 <h1>Delete</h1>

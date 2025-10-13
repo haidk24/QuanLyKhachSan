@@ -8,12 +8,25 @@
 </div>
 
 <div class="container mt-5">
+    <!-- FIX: Hiển thị thông báo chỉ cho Create (không nhầm với Update) -->
+    @if (TempData["CreateSuccess"] != null)
+    {
+        <div class="alert alert-success">@TempData["CreateSuccess"]</div>
+    }
+    @if (TempData["CreateError"] != null)
+    {
+        <div class="alert alert-danger">@TempData["CreateError"]</div>
+    }
+
     <form asp-action="Create" method="post">
+        <!-- Validation summary cho lỗi tổng quát -->
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
         <div class="row mt-4">
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="Hoten" class="font-weight-bold">Họ tên</label>
-                    <input type="text" asp-for="Hoten" class="form-control" />
+                    <input type="text" asp-for="Hoten" class="form-control" placeholder="Nhập họ và tên" />
                     <span asp-validation-for="Hoten" class="text-danger"></span>
                 </div>
             </div>
@@ -21,6 +34,7 @@
                 <div class="form-group">
                     <label asp-for="Phai" class="font-weight-bold">Phái</label>
                     <select asp-for="Phai" class="form-control">
+                        <option value="">-- Chọn phái --</option> <!-- Option mặc định để bắt buộc chọn -->
                         <option value="Nam">Nam</option>
                         <option value="Nữ">Nữ</option>
                     </select>
@@ -30,28 +44,28 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="Ngaysinh" class="font-weight-bold">Ngày sinh</label>
-                    <input type="datetime" asp-for="Ngaysinh" class="form-control" placeholder="DD/MM/YYYY"/>
+                    <input type="date" asp-for="Ngaysinh" class="form-control" /> <!-- type="date" cho picker dd/mm/yyyy -->
                     <span asp-validation-for="Ngaysinh" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="Sdt" class="font-weight-bold">Số điện thoại</label>
-                    <input type="number" asp-for="Sdt" class="form-control" placeholder="+84123456789" />
+                    <input type="tel" asp-for="Sdt" class="form-control" placeholder="0123456789" /> <!-- type="tel" hỗ trợ số, bỏ +84 nếu model chỉ 10 chữ số -->
                     <span asp-validation-for="Sdt" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="Email" class="font-weight-bold">Email</label>
-                    <input type="text" asp-for="Email" class="form-control" placeholder="abc@email.com" />
-                    <span asp-validation-for="Email" class="text-danger" ></span>
+                    <input type="email" asp-for="Email" class="form-control" placeholder="abc@email.com" /> <!-- type="email" cho validation browser -->
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="Diachi" class="font-weight-bold">Địa chỉ</label>
-                    <input type="text" asp-for="Diachi" class="form-control" />
+                    <input type="text" asp-for="Diachi" class="form-control" placeholder="Nhập địa chỉ chi tiết" />
                     <span asp-validation-for="Diachi" class="text-danger"></span>
                 </div>
             </div>
@@ -66,3 +80,10 @@
         </div>
     </form>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+     <!-- Client-side validation cho real-time lỗi -->
+}

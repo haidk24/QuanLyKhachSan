@@ -10,8 +10,8 @@ namespace Team_Project_4.InterfacesRepositories
         Task AddAsync(Taikhoan taikhoan);
         Task DeleteByManv(int manv);
         Task UpdateByNv(int manv, string newEmail);
-        Task CreateAccountForAllEmployee(IEnumerable<Nhanvien> employeesWithoutAccounts);
-        // Các phương thức khác liên quan đến tài khoản có thể được thêm vào tùy theo yêu cầu.
-
+        Task CreateAccountForAllEmployee(IEnumerable<Taikhoan> accounts);
+        Task<Taikhoan> GetByUsernameAsync(string tentknv);
+        Task<List<Taikhoan>> GetAllAsync(); // Thêm method lấy toàn bộ tài khoản
     }
 }

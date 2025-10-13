@@ -8,59 +8,176 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Team_Project_4.styles.css" asp-append-version="true" />
+    <style>
+        /* Style chỉ áp dụng trong sidebar menu để tránh ảnh hưởng toàn cục */
+        .bg-dark .nav-link {
+            color: #ccc;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Thêm transition cho glow */
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 0.75rem;
+            border-radius: 0 8px 8px 0; /* Bo góc chỉ bên phải cho top-level sát nền */
+            text-align: left;
+            margin: 0;
+            box-sizing: border-box; /* Bao gồm padding trong width */
+        }
 
+            /* Hover: Màu #7f8c8d với viền phát sáng nhẹ */
+            .bg-dark .nav-link:hover {
+                background-color: #7f8c8d;
+                color: #fff;
+                box-shadow: 0 0 8px rgba(127, 140, 141, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.1); /* Glow nhẹ bên ngoài + viền sáng trong */
+            }
+
+            /* Active: Màu #303952 với viền phát sáng */
+            .bg-dark .nav-link.active {
+                background-color: #303952;
+                color: #fff !important;
+                font-weight: 600;
+                box-shadow: 0 0 10px rgba(48, 57, 82, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.2); /* Glow mạnh hơn cho active, khớp màu mới */
+            }
+
+                /* Biểu tượng cũng đổi màu */
+                .bg-dark .nav-link.active i,
+                .bg-dark .nav-link:hover i {
+                    color: #fff;
+                }
+
+        /* Kích thước biểu tượng top-level: to */
+        .bg-dark > div > ul > li > .nav-link .bi {
+            font-size: 1.5rem;
+            width: 1.5rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* Kích thước biểu tượng submenu: nhỏ gọn hơn để tránh tràn */
+        .bg-dark .collapse .nav-link .bi {
+            font-size: 0.875rem; /* Nhỏ hơn nữa */
+            width: 0.875rem;
+            margin-right: 0.25rem; /* Spacing rất nhỏ */
+            flex-shrink: 0;
+        }
+
+        /* Full-width cho ul và nav-item để nav-link ôm sát nền đen */
+        .bg-dark ul {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bg-dark .nav-item {
+            width: 100%;
+            padding: 0;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Style riêng cho submenu: gọn hơn, indent vừa, KHÔNG TRÀN */
+        .bg-dark .collapse {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+            .bg-dark .collapse .nav-link {
+                padding: 0.375rem 0.5rem 0.375rem 1.5rem; /* Giảm padding-right sát cạnh, indent 1.5rem */
+                border-radius: 8px; /* Bo góc full cho submenu */
+                font-size: 0.875rem; /* Text nhỏ gọn hơn */
+                margin-bottom: 0.125rem; /* Spacing nhỏ */
+                max-width: 100%; /* Ép không vượt width parent */
+                overflow: hidden; /* Ẩn nếu text quá dài (fallback) */
+                white-space: nowrap; /* Không wrap text để gọn */
+                box-sizing: border-box;
+            }
+
+                /* Áp dụng hover/active cho submenu */
+                .bg-dark .collapse .nav-link:hover {
+                    background-color: #7f8c8d;
+                    color: #fff;
+                    box-shadow: 0 0 8px rgba(127, 140, 141, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.1); /* Glow nhất quán */
+                }
+
+                /* Active cho submenu: Màu #303952 với viền phát sáng */
+                .bg-dark .collapse .nav-link.active {
+                    background-color: #303952;
+                    color: #fff !important;
+                    box-shadow: 0 0 10px rgba(48, 57, 82, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.2); /* Glow mạnh hơn cho active, khớp màu mới */
+                }
+
+        /* Mobile sidebar toggle */
+        @@media (max-width: 767.98px) {
+            .bg-dark {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+
+                .bg-dark.show {
+                    transform: translateX(0);
+                }
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark" id="sidebar">
+                <!-- Thêm id="sidebar" cho toggle -->
                 <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                    <a href="#" id="menuToggle" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <button id="menuToggle" class="d-md-none btn btn-dark mb-3">
+                        <!-- Chuyển <a> thành <button> cho toggle đúng -->
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <!-- Sửa href="/" và thêm w-100 nếu cần -->
                         <span class="fs-5 d-none d-sm-inline">Quản lý khách sạn</span>
                     </a>
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                         <!-- Manager menu items -->
                         <li class="nav-item">
-                            <a asp-controller="Staff" asp-action="Index" class="nav-link align-middle px-0 text-white">
-                                <i class="bi bi-house-fill"></i><span class="ms-1 d-none d-sm-inline">Home</span>
+                            <a asp-controller="Staff" asp-action="Index" class="nav-link d-flex align-items-center text-white">
+                                <!-- Thêm d-flex cho align icon-text -->
+                                <i class="bi bi-house-fill"></i><span class="ms-2 d-none d-sm-inline">Home</span> <!-- ms-1 → ms-2 cho spacing tốt -->
                             </a>
                         </li>
-                        <li>
-                            <a asp-controller="Client" asp-action="ClientList" class="nav-link px-0 align-middle text-white">
-                                <i class="bi bi-person-circle"></i><span class="ms-1 d-none d-sm-inline">Khách</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a asp-controller="Room" asp-action="RoomList" class="nav-link px-0 align-middle text-white">
-                                <i class="bi bi-building"></i><span class="ms-1 d-none d-sm-inline">Phòng</span>
+                        <li class="nav-item">
+                            <!-- Thêm class nav-item cho nhất quán -->
+                            <a asp-controller="Client" asp-action="ClientList" class="nav-link d-flex align-items-center text-white">
+                                <i class="bi bi-person-circle"></i><span class="ms-2 d-none d-sm-inline">Khách</span>
                             </a>
                         </li>
 
-                        <li>
-                            <a asp-controller="Rent" asp-action="Index" class="nav-link px-0 align-middle text-white">
-                                <i class="bi bi-card-list"></i><span class="ms-1 d-none d-sm-inline">Phiếu thuê</span>
+                        <li class="nav-item">
+                            <a asp-controller="Room" asp-action="RoomList" class="nav-link d-flex align-items-center text-white">
+                                <i class="bi bi-building"></i><span class="ms-2 d-none d-sm-inline">Phòng</span>
                             </a>
                         </li>
 
-                        <li>
-                            <a asp-controller="Bill" asp-action="Index" class="nav-link px-0 align-middle text-white">
-                                <i class="bi bi-receipt"></i><span class="ms-1 d-none d-sm-inline">Hóa Đơn</span>
+                        <li class="nav-item">
+                            <a asp-controller="Rent" asp-action="Index" class="nav-link d-flex align-items-center text-white">
+                                <i class="bi bi-card-list"></i><span class="ms-2 d-none d-sm-inline">Phiếu thuê</span>
                             </a>
                         </li>
 
-                        <li>
-                            <a href="#submenu5" data-bs-toggle="collapse" class="nav-link px-0 align-middle text-white">
-                                <i class="bi bi-flag"></i><span class="ms-1 d-none d-sm-inline">Báo cáo</span>
+                        <li class="nav-item">
+                            <a asp-controller="Bill" asp-action="Index" class="nav-link d-flex align-items-center text-white">
+                                <i class="bi bi-receipt"></i><span class="ms-2 d-none d-sm-inline">Hóa Đơn</span>
                             </a>
-                            <ul class="collapse nav flex-column ms-1" id="submenu5" data-bs-parent="#menu">
-                                <li class="w-100">
-                                    <a asp-controller="SaleReport" asp-action="Index" class="nav-link px-0 align-middle text-white">
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#submenu5" data-bs-toggle="collapse" aria-expanded="false" aria-controls="submenu5" class="nav-link d-flex align-items-center text-white">
+                                <i class="bi bi-flag"></i><span class="ms-2 d-none d-sm-inline">Báo cáo</span>
+                            </a>
+                            <ul class="collapse nav flex-column ms-2" id="submenu5" data-bs-parent="#menu">
+                                <!-- ms-1 → ms-2 cho indent vừa -->
+                                <li class="nav-item w-100">
+                                    <!-- Thêm nav-item và w-100 -->
+                                    <a asp-controller="SaleReport" asp-action="Index" class="nav-link d-flex align-items-center text-white">
                                         <i class="bi bi-flag-fill"></i><span class="ms-1 d-none d-sm-inline">Báo cáo doanh thu</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a asp-controller="Room" asp-action="RoomUsageReport" class="nav-link px-0 align-middle text-white">
+                                <li class="nav-item">
+                                    <!-- Thêm nav-item -->
+                                    <a asp-controller="Room" asp-action="RoomUsageReport" class="nav-link d-flex align-items-center text-white">
                                         <i class="bi bi-flag-fill"></i><span class="ms-1 d-none d-sm-inline">Báo cáo tỷ lệ dùng</span>
                                     </a>
                                 </li>
@@ -89,8 +206,44 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        // Active menu script (thêm để highlight trang hiện tại)
+        const currentUrl = new URL(window.location.href).pathname.toLowerCase();
+        document.querySelectorAll('#menu a[href]:not([href^="#"])').forEach(link => {
+            const linkHref = new URL(link.href, window.location.origin).pathname.toLowerCase();
+            if (currentUrl === linkHref) {
+                link.classList.add('active');
+                const parentCollapse = link.closest('.collapse');
+                if (parentCollapse) {
+                    parentCollapse.classList.add('show');
+                    const parentLi = parentCollapse.parentElement;
+                    const parentLink = parentLi.querySelector('a[href^="#"]');
+                    if (parentLink) {
+                        parentLink.classList.add('active');
+                    }
+                }
+            }
+        });
 
+        // Mobile toggle (thêm để sidebar slide trên mobile)
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('show');
+        });
+
+        // Ẩn sidebar khi click ngoài (mobile only)
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth < 768 && !e.target.closest('.bg-dark') && !e.target.closest('#menuToggle')) {
+                document.getElementById('sidebar').classList.remove('show');
+            }
+        });
+
+        // Xử lý resize window để reset sidebar nếu cần
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                document.getElementById('sidebar').classList.remove('show');
+            }
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
-
-

@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Team_Project_4.InterfacesRepositories;
 using Team_Project_4.Models;
 using Team_Project_4.Repositories;
 using Team_Project_4.ViewModels;
-using System.Linq; // Add this using statement
-using System.Threading.Tasks;
 
 namespace Team_Project_4.Controllers
 {
@@ -77,63 +78,113 @@ namespace Team_Project_4.Controllers
 
         public async Task<IActionResult> Create()
         {
-            return View();
+            return View(new Nhanvien()); // Pass model rỗng để tránh null
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken] // Bảo mật CSRF
         public async Task<IActionResult> Create(Nhanvien nhanvien)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(nhanvien);
+                try
+                {
+                    // Check email unique trước khi add
+                    var existing = await nhanvienRepo.GetByEmailAsync(nhanvien.Email);
+                    if (existing != null)
+                    {
+                        ModelState.AddModelError("Email", "Email này đã được sử dụng");
+                    }
+                    else
+                    {
+                        await nhanvienRepo.AddAsync(nhanvien);
+                        TempData["CreateSuccess"] = "Thêm nhân viên thành công!"; // FIX: Key riêng cho Create
+                        return RedirectToAction("NhanvienList");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Catch lỗi DB
+                    TempData["CreateError"] = "Lỗi khi lưu: " + ex.Message; // FIX: Key riêng cho Create
+                }
             }
-            var existingNhanvien = await nhanvienRepo.GetByEmailAsync(nhanvien.Email);
-
-            if (existingNhanvien != null)
-            {
-                ModelState.AddModelError("Email", "Email này đã được sử dụng");
-                return View(nhanvien);
-            }
-            await nhanvienRepo.AddAsync(nhanvien);
-            return RedirectToAction("NhanvienList");
+            return View(nhanvien); // Return view với model để hiển thị lỗi
         }
-
 
         public async Task<IActionResult> Update(string nhanvienid)
         {
-            var nhanvien = await nhanvienRepo.GetByIdAsync(int.Parse(nhanvienid));
+            if (string.IsNullOrEmpty(nhanvienid) || !int.TryParse(nhanvienid, out int id))
+            {
+                return NotFound("ID không hợp lệ");
+            }
+
+            var nhanvien = await nhanvienRepo.GetByIdAsync(id);
+
+            if (nhanvien == null)
+            {
+                return NotFound("Không tìm thấy nhân viên");
+            }
 
             return View(nhanvien);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Nhanvien nhanvien, string nhanvienid)
+        [ValidateAntiForgeryToken] // Bảo mật CSRF
+        public async Task<IActionResult> Update(Nhanvien nhanvien)
         {
-        
-            if (!ModelState.IsValid)
+            if (nhanvien.Manv <= 0) // Check ID từ model
             {
-        
-                return View(nhanvien);
+                return BadRequest("ID nhân viên không hợp lệ");
             }
-        	int id = int.Parse(nhanvienid);
-        	var existingNhanvien = await nhanvienRepo.CheckEmailExist(nhanvien.Email,id);
-        
-            if (existingNhanvien != null)
+
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("Email", "Email này đã được sử dụng");
-                return View(nhanvien);
+                try
+                {
+                    // Check email unique (ngoại trừ chính record này)
+                    var existingEmail = await nhanvienRepo.GetByEmailAsync(nhanvien.Email);
+                    if (existingEmail != null && existingEmail.Manv != nhanvien.Manv)
+                    {
+                        ModelState.AddModelError("Email", "Email này đã được sử dụng bởi nhân viên khác");
+                    }
+                    else
+                    {
+                        await nhanvienRepo.UpdateAsync(nhanvien, nhanvien.Manv); // Update với ID từ model
+                        TempData["UpdateSuccess"] = "Cập nhật nhân viên thành công!"; // FIX: Key riêng cho Update
+                        return RedirectToAction("NhanvienList");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Catch lỗi DB
+                    TempData["UpdateError"] = "Lỗi khi cập nhật: " + ex.Message; // FIX: Key riêng cho Update
+                }
             }
-            
-            await nhanvienRepo.UpdateAsync(nhanvien,id);
-            return RedirectToAction("nhanvienList");
+
+            // Nếu invalid, return view với model để hiển thị lỗi
+            return View(nhanvien);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken] // Bảo mật CSRF
         public async Task<IActionResult> Delete(string nhanvienid)
         {
-            await nhanvienRepo.DeleteAsync(int.Parse(nhanvienid));
+            if (!int.TryParse(nhanvienid, out int id))
+            {
+                return BadRequest("ID không hợp lệ");
+            }
+
+            try
+            {
+                await nhanvienRepo.DeleteAsync(id);
+                TempData["DeleteSuccess"] = "Xóa nhân viên thành công!"; // Thêm key riêng cho Delete nếu cần
+            }
+            catch (Exception ex)
+            {
+                TempData["DeleteError"] = "Lỗi khi xóa: " + ex.Message;
+            }
+
             return RedirectToAction("NhanvienList");
         }
     }
 }
-

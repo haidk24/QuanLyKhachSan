@@ -1,15 +1,7 @@
 ﻿@model Khachhang
 @{
     ViewData["Title"] = "ADD CLIENT INFO";
-    string userRole = Context.Session.GetString("UserRole");
-    if (userRole == "Manager")
-    {
-       Layout = "_ManagerLayout";
-    }
-    else if(userRole == "Staff")
-    {
-        Layout = "_StaffLayout";
-    }
+    Layout = "_ManagerLayout";
 }
 
 <div class="text-center">
