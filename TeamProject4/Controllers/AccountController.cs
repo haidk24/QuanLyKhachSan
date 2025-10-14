@@ -1,22 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
-using System.Linq;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Json; // Để serialize JSON
+using System.Text.RegularExpressions; // Để xử lý tên
 using System.Threading.Tasks;
 using Team_Project_4.InterfacesRepositories;
 using Team_Project_4.Models;
 using Team_Project_4.Repositories;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using System.Text.Json; // Để serialize JSON
-using System.Text.RegularExpressions; // Để xử lý tên
-using System.Text;
-using System.Globalization;
+using Team_Project_4.ViewModels; // Thêm using cho AccountViewModel
 
 namespace Team_Project_4.Controllers
 {
@@ -100,7 +101,7 @@ namespace Team_Project_4.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine("Lỗi CreateAccountForAllEmployee: " + ex.Message);
+                    Debug.WriteLine($"[ERROR] CreateAccountForAllEmployee: {ex.Message} | StackTrace: {ex.StackTrace}");
                     TempData["Error"] = "Lỗi khi cấp tài khoản: " + ex.Message;
                 }
             }
@@ -139,7 +140,7 @@ namespace Team_Project_4.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine("Lỗi AddAsync Taikhoan: " + ex.Message);
+                    Debug.WriteLine($"[ERROR] AddAsync Taikhoan: {ex.Message} | StackTrace: {ex.StackTrace}");
                     TempData["Error"] = "Lỗi khi cấp tài khoản: " + ex.Message;
                 }
             }
@@ -163,18 +164,44 @@ namespace Team_Project_4.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteAccount(int manv)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ToggleAccountStatus(int manv)
         {
+            if (manv <= 0)
+            {
+                TempData["Error"] = "Mã nhân viên không hợp lệ.";
+                return RedirectToAction("Register");
+            }
+
+            Debug.WriteLine($"[DEBUG] Nhận request thay đổi trạng thái với manv = {manv}");
             try
             {
-                await _taikhoanRepo.DeleteByManv(manv);
-                TempData["Success"] = "Xóa tài khoản thành công!";
+                // Sử dụng phương thức mới từ repository
+                var firstAccount = await _taikhoanRepo.GetByManvAsync(manv);
+                if (firstAccount == null)
+                {
+                    TempData["Error"] = "Không tìm thấy tài khoản để thay đổi trạng thái.";
+                    return RedirectToAction("Register");
+                }
+
+                bool activate = !firstAccount.IsActive; // Nếu đang khóa thì mở, đang mở thì khóa
+                bool result = await _taikhoanRepo.ToggleAccountStatus(manv, activate);
+                Debug.WriteLine($"[DEBUG] Kết quả thay đổi trạng thái: {result}");
+                if (result)
+                {
+                    TempData["Success"] = activate ? "Kích hoạt tài khoản thành công!" : "Vô hiệu hóa tài khoản thành công!";
+                }
+                else
+                {
+                    TempData["Error"] = "Không thể thay đổi trạng thái tài khoản.";
+                }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Lỗi DeleteAccount: " + ex.Message);
-                TempData["Error"] = "Lỗi khi xóa tài khoản: " + ex.Message;
+                Debug.WriteLine($"[ERROR] ToggleAccountStatus: {ex.Message} | StackTrace: {ex.StackTrace}");
+                TempData["Error"] = "Lỗi khi thay đổi trạng thái tài khoản: " + ex.Message;
             }
+
             return RedirectToAction("Register");
         }
 
@@ -192,9 +219,10 @@ namespace Team_Project_4.Controllers
                         Manv = tk.Manv,
                         Hoten = nv.Hoten,
                         Sdt = nv.Sdt,
-                        Gmail = tk.Tentknv, // Tentknv chứa @domain
+                        Gmail = tk.Tentknv,
                         Tentknv = tk.Tentknv,
-                        Mktk = tk.Mktk
+                        Mktk = tk.Mktk,
+                        IsActive = tk.IsActive
                     });
                 }
             }
@@ -223,21 +251,17 @@ namespace Team_Project_4.Controllers
         {
             if (string.IsNullOrEmpty(text)) return text;
 
-            // Chuẩn hoá về FormD (tách ký tự base và dấu)
             string normalized = text.Normalize(NormalizationForm.FormD);
-
-            var sb = new System.Text.StringBuilder();
+            var sb = new StringBuilder();
 
             foreach (var c in normalized)
             {
-                // Loại bỏ các ký tự thuộc loại NonSpacingMark (dấu)
                 if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
                 {
                     sb.Append(c);
                 }
             }
 
-            // Chuẩn hoá lại về FormC và chuyển đ/Đ -> d/D
             string result = sb.ToString().Normalize(NormalizationForm.FormC)
                               .Replace('đ', 'd')
                               .Replace('Đ', 'D');

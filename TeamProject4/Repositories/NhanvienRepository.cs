@@ -35,8 +35,9 @@ namespace Team_Project_4.Repositories
                 return; // Không throw, chỉ log
             }
 
-            await _tkrepo.DeleteByManv(Id); // Delete liên quan Taikhoan trước
-            _dbContext.Nhanviens.Remove(nhanvien);
+            // Thay vì xóa tài khoản, chỉ vô hiệu hóa (khóa) tài khoản liên quan
+            await _tkrepo.ToggleAccountStatus(Id, false); // Khóa tài khoản với Manv = Id
+            _dbContext.Nhanviens.Remove(nhanvien); // Xóa nhân viên
             await _dbContext.SaveChangesAsync();
         }
 

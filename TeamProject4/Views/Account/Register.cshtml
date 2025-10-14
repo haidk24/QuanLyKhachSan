@@ -4,6 +4,7 @@
     ViewData["Title"] = "Register";
     Layout = "_ManagerLayout";
 }
+
 @if (ViewBag.success != null)
 {
     <div class="alert alert-success" role="alert">
@@ -99,13 +100,14 @@
                 <th>Gmail</th>
                 <th>Tên TK</th>
                 <th>Mật khẩu</th>
+                <th>Trạng thái</th>
                 <th>Hành động</th>
             </tr>
         </thead>
         <tbody id="accountTableBody">
             @if (ViewBag.AccountList != null)
             {
-                var accounts = ViewBag.AccountList as List<AccountViewModel>;
+                var accounts = ViewBag.AccountList as List<Team_Project_4.ViewModels.AccountViewModel>;
                 @foreach (var account in accounts)
                 {
                     <tr>
@@ -115,41 +117,69 @@
                         <td>@account.Gmail</td>
                         <td>@account.Tentknv</td>
                         <td>@account.Mktk</td>
+                        <td>@(account.IsActive ? "Hoạt động" : "Khóa")</td>
                         <td>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal_@account.Manv">
-                                Xóa
-                            </button>
-                            <!-- Modal xác nhận xóa -->
-                            <div class="modal fade" id="deleteModal_@account.Manv" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel_@account.Manv" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel_@account.Manv">Xác nhận xóa</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Bạn chắc chắn muốn xóa tài khoản của mã NV @account.Manv?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                            <form asp-action="DeleteAccount" method="post" style="display:inline;">
-                                                @Html.AntiForgeryToken()
-                                                <input type="hidden" name="manv" value="@account.Manv" />
-                                                <button type="submit" class="btn btn-danger">Xóa</button>
-                                            </form>
+                            @if (account.IsActive)
+                            {
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal_@account.Manv">
+                                    Khóa
+                                </button>
+                                <div class="modal fade" id="deleteModal_@account.Manv" tabindex="-1" aria-labelledby="deleteModalLabel_@account.Manv" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel_@account.Manv">Xác nhận khóa</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bạn chắc chắn muốn khóa tài khoản của mã NV @account.Manv không? Tài khoản này sẽ không thể đăng nhập.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                <form asp-action="ToggleAccountStatus" asp-controller="Account" method="post" style="display:inline;">
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" name="manv" value="@account.Manv" />
+                                                    <button type="submit" class="btn btn-danger">Khóa</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#activateModal_@account.Manv">
+                                    Mở khóa
+                                </button>
+                                <div class="modal fade" id="activateModal_@account.Manv" tabindex="-1" aria-labelledby="activateModalLabel_@account.Manv" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="activateModalLabel_@account.Manv">Xác nhận mở khóa</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Bạn chắc chắn muốn mở khóa tài khoản của mã NV @account.Manv không?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                <form asp-action="ToggleAccountStatus" asp-controller="Account" method="post" style="display:inline;">
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" name="manv" value="@account.Manv" />
+                                                    <button type="submit" class="btn btn-success">Mở khóa</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </td>
                     </tr>
                 }
             }
             else
             {
-                <tr><td colspan="7" class="text-center">Không có tài khoản nào</td></tr>
+                <tr><td colspan="8" class="text-center">Không có tài khoản nào</td></tr>
             }
         </tbody>
     </table>
@@ -275,10 +305,10 @@
         var rows = accountTableBody.getElementsByTagName("tr");
 
         for (var i = 0; i < rows.length; i++) {
-            var manv = removeVietnameseAccents(rows[i].cells[0].textContent.toLowerCase()); // Mã NV
-            var hoten = removeVietnameseAccents(rows[i].cells[1].textContent.toLowerCase()); // Họ tên
-            var sdt = removeVietnameseAccents(rows[i].cells[2].textContent.toLowerCase()); // Số ĐT
-            var gmail = removeVietnameseAccents(rows[i].cells[3].textContent.toLowerCase()); // Gmail
+            var manv = removeVietnameseAccents(rows[i].cells[0].textContent.toLowerCase());
+            var hoten = removeVietnameseAccents(rows[i].cells[1].textContent.toLowerCase());
+            var sdt = removeVietnameseAccents(rows[i].cells[2].textContent.toLowerCase());
+            var gmail = removeVietnameseAccents(rows[i].cells[3].textContent.toLowerCase());
             if (manv.includes(searchTerm) || hoten.includes(searchTerm) || sdt.includes(searchTerm) || gmail.includes(searchTerm)) {
                 rows[i].style.display = "";
             } else {
