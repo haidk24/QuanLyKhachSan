@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using Team_Project_4.InterfacesRepositories;
 using Team_Project_4.Models;
@@ -101,32 +102,56 @@ namespace Team_Project_4.Controllers
         {
             TempData["Manager"] = manager;
             var clientTypes = await clientRepo.GetAllLoaikhach();
-            var rooms = roomRepo.GetAllAsync();
+            var rooms = await roomRepo.GetAllAsync().ToListAsync();
             ViewBag.ClientType = new SelectList(clientTypes, "Maloaikhach", "Tenloaikhach");
             ViewBag.ClientRoom = new SelectList(rooms, "Map", "Tenphong");
             return View();
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> Create(Khachhang khach,int manager)
+        public async Task<IActionResult> Create(Khachhang khach, int manager)
         {
             TempData["Manager"] = manager;
             khach.MaloaikhachNavigation = await clientRepo.GetClientTypeById(khach.Maloaikhach);
 
-
             if (string.IsNullOrEmpty(khach.Tenkh))
             {
-
-                var clientTypes = await clientRepo.GetAllLoaikhach(); // Fetch client types again
-                var rooms = roomRepo.GetAllAsync();
+                var clientTypes = await clientRepo.GetAllLoaikhach();
+                var roomList = await roomRepo.GetAllAsync().ToListAsync();
                 ViewBag.ClientType = new SelectList(clientTypes, "Maloaikhach", "Tenloaikhach");
-                ViewBag.ClientRoom = new SelectList(rooms, "Map", "Tenphong");
+                ViewBag.ClientRoom = new SelectList(roomList, "Map", "Tenphong");
                 return View(khach);
             }
 
-            await clientRepo.AddAsync(khach);
-            return RedirectToAction("ClientList", new { manager = manager }) ;
+            var room = await roomRepo.GetByIdAsync(khach.Map);
+            if (room == null)
+            {
+                ModelState.AddModelError("", "Phòng không tồn tại.");
+            }
+            else
+            {
+                var currentClientCount = await clientRepo.CountClientsByRoomId(khach.Map);
+
+                if (currentClientCount >= room.Soluongkhachtoida)
+                {
+                    ModelState.AddModelError("", "Phòng đã đạt số lượng khách tối đa, không thể thêm khách mới.");
+
+                    var clientTypes = await clientRepo.GetAllLoaikhach();
+                    var roomList = await roomRepo.GetAllAsync().ToListAsync();
+                    ViewBag.ClientType = new SelectList(clientTypes, "Maloaikhach", "Tenloaikhach");
+                    ViewBag.ClientRoom = new SelectList(roomList, "Map", "Tenphong");
+                    return View(khach);
+                }
+
+                await clientRepo.AddAsync(khach);
+                return RedirectToAction("ClientList", new { manager });
+            }
+
+            var clientTypesReload = await clientRepo.GetAllLoaikhach();
+            var roomReload = await roomRepo.GetAllAsync().ToListAsync();
+            ViewBag.ClientType = new SelectList(clientTypesReload, "Maloaikhach", "Tenloaikhach");
+            ViewBag.ClientRoom = new SelectList(roomReload, "Map", "Tenphong");
+            return View(khach);
         }
 
 

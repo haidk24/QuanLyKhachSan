@@ -14,6 +14,10 @@ namespace Team_Project_4.Repositories
             _dbContext = dbContext;
             _loaikhachRepo = lkrepo;
         }
+        public async Task<int> CountClientsByRoomId(int map)
+        {
+            return await _dbContext.Khachhangs.CountAsync(k => k.Map == map);
+        }
         public async Task AddAsync(Khachhang khach)
         {
             khach.MaloaikhachNavigation = await _loaikhachRepo.GetByIdAsync(khach.Maloaikhach);
