@@ -15,6 +15,7 @@ namespace Team_Project_4.InterfacesRepositories
         Task<List<Khachhang>> GetCustomersByRoomIdAsync(int roomId);
         Task<Khachhang> GetClientByCCCDAsync(string cccd);
         Task<Khachhang> GetClientByIDAsync(int id);
+        Task<int> CountClientsByRoomId(int map);
         Task<int> GetSoLuongKhachByMapAsync(int map);
         Task<IEnumerable<Khachhang>> GetCustomersByRoomNameAsync(string tenPhong);
         Task DeleteCustomersByRoomAsync(string tenPhong, string CCCD);

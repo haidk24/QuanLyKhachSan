@@ -10,6 +10,9 @@
 
 <div class="container mt-5">
     <form asp-action="Update" method="post">
+        <div class="text-danger mb-3">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
         <div class="row mt-4">
             <div class="col-md-6">
                 <div class="form-group">
