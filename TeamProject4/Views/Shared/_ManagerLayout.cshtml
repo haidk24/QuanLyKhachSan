@@ -260,23 +260,33 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
-        // Active menu script (giữ nguyên)
-        const currentUrl = new URL(window.location.href).pathname.toLowerCase();
-        document.querySelectorAll('#menu a[href]:not([href^="#"])').forEach(link => {
-            const linkHref = new URL(link.href, window.location.origin).pathname.toLowerCase();
-            if (currentUrl === linkHref) {
+        document.addEventListener('DOMContentLoaded', () => {
+          const normalizePath = path => path.replace(/\/+$/, ''); // bỏ dấu '/' cuối
+
+          const currentUrl = normalizePath(new URL(window.location.href).pathname.toLowerCase());
+
+          document.querySelectorAll('#menu a[href]:not([href^="#"])').forEach(link => {
+            try {
+              const linkHref = normalizePath(new URL(link.href, window.location.origin).pathname.toLowerCase());
+
+              if (currentUrl === linkHref) {
                 link.classList.add('active');
+
                 const parentCollapse = link.closest('.collapse');
                 if (parentCollapse) {
-                    parentCollapse.classList.add('show');
-                    const parentLi = parentCollapse.parentElement;
-                    const parentLink = parentLi.querySelector('a[href^="#"]');
-                    if (parentLink) {
-                        parentLink.classList.add('active');
-                    }
+                  parentCollapse.classList.add('show');
+
+                  const parentLi = parentCollapse.parentElement;
+                  const parentLink = parentLi.querySelector(`a[href="#${parentCollapse.id}"]`);
+                  if (parentLink) parentLink.classList.add('active');
                 }
+              }
+            } catch (e) {
+              console.warn('Invalid href:', link.href);
             }
+          });
         });
+
 
         // Mobile toggle (giữ nguyên)
         document.getElementById('menuToggle').addEventListener('click', () => {
