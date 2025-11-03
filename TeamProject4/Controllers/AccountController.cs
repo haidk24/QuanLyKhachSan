@@ -269,6 +269,7 @@ namespace Team_Project_4.Controllers
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
                 HttpContext.Session.SetString("accname", check.Tentknv);
+                HttpContext.Session.SetString("UserRole", role); // Thêm dòng này để lưu UserRole
 
                 if (role == "Staff")
                 {
@@ -289,6 +290,7 @@ namespace Team_Project_4.Controllers
             if (!string.IsNullOrEmpty(HttpContext.Session.GetString("accname")))
             {
                 HttpContext.Session.SetString("accname", "");
+                HttpContext.Session.SetString("UserRole", ""); // Xóa UserRole khỏi session
                 return RedirectToAction("Login", "Account");
             }
             return RedirectToAction("Login", "Account");

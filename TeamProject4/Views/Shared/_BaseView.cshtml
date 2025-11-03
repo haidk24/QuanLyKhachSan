@@ -1,0 +1,13 @@
+﻿@{
+    string userRole = Context.Session.GetString("UserRole");
+    if (userRole == "Manager")
+    {
+        Layout = "_ManagerLayout";
+    }
+    else if (userRole == "Staff")
+    {
+        Layout = "_StaffLayout";    
+    }
+}
+
+@RenderBody()
