@@ -3,36 +3,160 @@
     ViewData["Title"] = "Update room";
     Layout = "_BaseView";
 }
-<div class="text-center">
-    <h2 class="display-4">CẬP NHẬT PHÒNG</h2>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+        .page-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+    .form-card {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        max-width: 900px;
+        margin: 0 auto 3rem;
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+        .form-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+    .form-control {
+        border: 2px solid #e8ecf1;
+        border-radius: 10px;
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.15);
+        }
+
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .btn-action {
+        padding: 0.875rem 2.5rem;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        flex: 1;
+        text-decoration: none;
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+            color: white;
+        }
+
+    .btn-back {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        color: #333;
+    }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(252,182,159,0.4);
+            color: #333;
+        }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .button-group {
+            flex-direction: column;
+        }
+
+        .btn-action {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="page-header">
+    <h2><i class="fas fa-edit me-2"></i> CẬP NHẬT LOẠI PHÒNG</h2>
 </div>
 
-<div class="container mt-5">
+<div class="form-card">
     <form asp-action="UpdateRoomType" method="post">
-        <div class="row mt-4">
+        <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="Tenloai" class="font-weight-bold">Tên loại phòng</label>
+                    <label asp-for="Tenloai"><i class="fas fa-door-open me-2"></i>Tên loại phòng</label>
                     <input type="text" asp-for="Tenloai" class="form-control" />
                     <span asp-validation-for="Tenloai" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label asp-for="Dongia" class="font-weight-bold">Đơn giá</label>
+                    <label asp-for="Dongia"><i class="fas fa-coins me-2"></i>Đơn giá</label>
                     <input type="text" asp-for="Dongia" class="form-control" />
                     <span asp-validation-for="Dongia" class="text-danger"></span>
                 </div>
             </div>
         </div>
-        <div class="row mt-4">
-            <div class="col-md-6 d-flex justify-content-start">
-                <a asp-action="RoomType" class="btn btn-warning btn-block mr-auto">Xem danh sách loại phòng</a>
-            </div>
-            <div class="col-md-6 d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary btn-block ml-auto" asp-route-roomtypeid="@Model.Maloaiphong">Cập nhật</button>
-            </div>
+
+        <div class="button-group">
+            <a asp-action="RoomType" class="btn-action btn-back">
+                <i class="fas fa-arrow-left"></i> Xem danh sách loại phòng
+            </a>
+            <button type="submit" class="btn-action btn-submit" asp-route-roomtypeid="@Model.Maloaiphong">
+                <i class="fas fa-check-circle"></i> Cập nhật
+            </button>
         </div>
     </form>
 </div>
-
