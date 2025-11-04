@@ -223,14 +223,13 @@
             }
 
         .table tbody tr {
-            transition: all 0.3s ease;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
             border-bottom: 1px solid #f0f0f0;
         }
 
             .table tbody tr:hover {
                 background: linear-gradient(90deg, #f8f9ff 0%, #fff 100%);
-                transform: scale(1.01);
-                box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             }
 
         .table tbody td {
@@ -241,30 +240,68 @@
             text-align: center;
         }
 
-    .btn-delete {
-        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        color: white;
+    .btn-action {
         border: none;
         padding: 0.6rem 1.25rem;
         border-radius: 8px;
         font-size: 0.85rem;
         font-weight: 500;
-        transition: all 0.3s ease;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
+        margin: 0 0.2rem;
+        position: relative;
+        z-index: 1;
     }
 
-        .btn-delete:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(250, 112, 154, 0.4);
+    .btn-lock {
+        background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+        color: white;
+    }
+
+        .btn-lock:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(220, 53, 69, 0.3);
             color: white;
         }
+
+    .btn-unlock {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+    }
+
+        .btn-unlock:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(40, 167, 69, 0.3);
+            color: white;
+        }
+
+    .badge-status {
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-active {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+    }
+
+    .badge-inactive {
+        background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+        color: white;
+    }
 
     .modal-content {
         border-radius: 16px;
         border: none;
         box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        max-width: 90vw;
+        margin: auto;
     }
 
     .modal-header {
@@ -281,18 +318,31 @@
             gap: 0.5rem;
         }
 
-        .modal-header .close {
-            color: white;
-            opacity: 1;
-            text-shadow: none;
-            font-size: 1.5rem;
-        }
+    .modal-header-unlock {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    }
 
     .modal-body {
         padding: 2rem;
         font-size: 1rem;
         color: #495057;
+        word-wrap: break-word;
+        line-height: 1.6;
     }
+
+        .modal-body .employee-info {
+            display: block;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 0.5rem 0;
+        }
+
+        .modal-body .warning-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 1rem;
+            font-style: italic;
+        }
 
     .modal-footer {
         padding: 1.5rem;
@@ -309,7 +359,16 @@
         }
 
         .modal-footer .btn-danger {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .modal-footer .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
             border: none;
             padding: 0.6rem 1.5rem;
@@ -323,33 +382,32 @@
         color: #6c757d;
     }
 
+    /* Prevent button flickering */
+    .table tbody tr td:last-child {
+        position: relative;
+    }
+
+    .btn-action:active {
+        transform: translateY(0);
+        transition: none;
+    }
+
+    /* Stable button container */
+    .action-buttons {
+        display: inline-block;
+        white-space: nowrap;
+    }
+
     @@media (max-width: 768px) {
         .page-header h2 {
             font-size: 1.25rem;
-            text-align: center;
-        }
-
-        .content-card {
+        }        .content-card {
             padding: 1.5rem;
-        }
-
-        .form-group label {
-            font-size: 0.85rem;
         }
 
         .form-control {
             padding: 0.6rem 0.9rem;
             font-size: 0.85rem;
-        }
-
-        select.form-control {
-            padding-right: 2.5rem; /* đủ chỗ cho mũi tên */
-        }
-
-        .row > .col-md-6 {
-            flex: 0 0 100%;
-            max-width: 100%;
-            margin-bottom: 1rem;
         }
 
         .btn-submit {
@@ -359,44 +417,15 @@
             font-size: 0.9rem;
         }
 
-        .alert {
-            flex-direction: column;
-            text-align: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-        }
-
-        .table-container {
-            overflow-x: auto;
-        }
-
         .table thead th,
         .table tbody td {
             padding: 0.5rem 0.4rem;
             font-size: 0.8rem;
         }
 
-        .btn-delete {
+        .btn-action {
             padding: 0.5rem 0.8rem;
             font-size: 0.75rem;
-        }
-
-        .modal-content {
-            margin: 1rem;
-        }
-
-        .modal-header .modal-title {
-            font-size: 1rem;
-        }
-
-        .modal-body {
-            font-size: 0.9rem;
-        }
-
-        .modal-footer .btn-secondary,
-        .modal-footer .btn-danger {
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
         }
 
         .search-box input {
@@ -408,8 +437,27 @@
             left: 0.75rem;
             font-size: 1rem;
         }
-    }
 
+        .modal-body {
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .modal-body .employee-info {
+            font-size: 0.9rem;
+            margin: 0.75rem 0;
+        }
+
+        .modal-footer {
+            padding: 1rem;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .modal-footer .btn {
+            width: 100%;
+            margin: 0;
+        }
     }
 </style>
 
@@ -432,7 +480,6 @@
             <span>@TempData["Error"]</span>
         </div>
     }
-
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-7">
             <div class="content-card">
@@ -451,7 +498,7 @@
                                     <i class="fas fa-id-badge"></i>Mã nhân viên
                                 </label>
                                 <select class="form-control" asp-for="Manv" id="employeeId" asp-items="ViewBag.EmployeeIdList">
-                                    <option value="0">-- Chọn nhân viên --</option>
+                                    <option value="0">Tất cả</option>
                                 </select>
                                 <span asp-validation-for="Manv" class="text-danger"></span>
                             </div>
@@ -559,13 +606,14 @@
                         <th>Gmail</th>
                         <th>Tên TK</th>
                         <th>Mật khẩu</th>
+                        <th>Trạng thái</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody id="accountTableBody">
                     @if (ViewBag.AccountList != null)
                     {
-                        var accounts = ViewBag.AccountList as List<AccountViewModel>;
+                        var accounts = ViewBag.AccountList as List<Team_Project_4.ViewModels.AccountViewModel>;
                         @foreach (var account in accounts)
                         {
                             <tr>
@@ -576,34 +624,90 @@
                                 <td>@account.Tentknv</td>
                                 <td>@account.Mktk</td>
                                 <td>
-                                    <button type="button" class="btn-delete" data-toggle="modal" data-target="#deleteModal_@account.Manv">
-                                        <i class="fas fa-trash-alt"></i>Xóa
-                                    </button>
+                                    <span class="badge-status @(account.IsActive ? "badge-active" : "badge-inactive")">
+                                        @(account.IsActive ? "Hoạt động" : "Khóa")
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        @if (account.IsActive)
+                                        {
+                                            <button type="button" class="btn-action btn-lock" data-bs-toggle="modal" data-bs-target="#lockModal_@account.Manv">
+                                                <i class="fas fa-lock"></i>Khóa
+                                            </button>
 
-                                    <div class="modal fade" id="deleteModal_@account.Manv" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel_@account.Manv" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="deleteModalLabel_@account.Manv">
-                                                        <i class="fas fa-exclamation-triangle"></i>Xác nhận xóa
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Bạn chắc chắn muốn xóa tài khoản của <strong>@account.Hoten</strong> (Mã NV: @account.Manv)?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                                    <form asp-action="DeleteAccount" method="post" style="display:inline;">
-                                                        @Html.AntiForgeryToken()
-                                                        <input type="hidden" name="manv" value="@account.Manv" />
-                                                        <button type="submit" class="btn btn-danger">Xóa</button>
-                                                    </form>
+                                        <div class="modal fade" id="lockModal_@account.Manv" tabindex="-1" aria-labelledby="lockModalLabel_@account.Manv" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="lockModalLabel_@account.Manv">
+                                                            <i class="fas fa-lock"></i>Xác nhận khóa tài khoản
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Bạn chắc chắn muốn khóa tài khoản của:</p>
+                                                        <div class="employee-info">
+                                                            <i class="fas fa-user"></i> @account.Hoten
+                                                            <br>
+                                                            <i class="fas fa-id-badge"></i> Mã NV: @account.Manv
+                                                        </div>
+                                                        <div class="warning-text">
+                                                            <i class="fas fa-exclamation-triangle"></i>
+                                                            Tài khoản này sẽ không thể đăng nhập sau khi bị khóa.
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                        <form asp-action="ToggleAccountStatus" asp-controller="Account" method="post" style="display:inline;">
+                                                            @Html.AntiForgeryToken()
+                                                            <input type="hidden" name="manv" value="@account.Manv" />
+                                                            <button type="submit" class="btn btn-danger">Khóa tài khoản</button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn-action btn-unlock" data-bs-toggle="modal" data-bs-target="#unlockModal_@account.Manv">
+                                                <i class="fas fa-unlock"></i>Mở khóa
+                                            </button>
+
+                                        <div class="modal fade" id="unlockModal_@account.Manv" tabindex="-1" aria-labelledby="unlockModalLabel_@account.Manv" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header modal-header-unlock">
+                                                        <h5 class="modal-title" id="unlockModalLabel_@account.Manv">
+                                                            <i class="fas fa-unlock"></i>Xác nhận mở khóa tài khoản
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Bạn chắc chắn muốn mở khóa tài khoản của:</p>
+                                                        <div class="employee-info">
+                                                            <i class="fas fa-user"></i> @account.Hoten
+                                                            <br>
+                                                            <i class="fas fa-id-badge"></i> Mã NV: @account.Manv
+                                                        </div>
+                                                        <div class="warning-text">
+                                                            <i class="fas fa-info-circle"></i>
+                                                            Tài khoản sẽ có thể đăng nhập trở lại sau khi được mở khóa.
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                                        <form asp-action="ToggleAccountStatus" asp-controller="Account" method="post" style="display:inline;">
+                                                            @Html.AntiForgeryToken()
+                                                            <input type="hidden" name="manv" value="@account.Manv" />
+                                                            <button type="submit" class="btn btn-success">Mở khóa</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        }
                                     </div>
                                 </td>
                             </tr>
@@ -612,7 +716,7 @@
                     else
                     {
                         <tr>
-                            <td colspan="7" class="empty-state">
+                            <td colspan="8" class="empty-state">
                                 <i class="fas fa-inbox" style="font-size: 3rem; color: #dee2e6; margin-bottom: 0.5rem; display: block;"></i>
                                 Không có tài khoản nào
                             </td>
@@ -744,10 +848,10 @@
         var rows = accountTableBody.getElementsByTagName("tr");
 
         for (var i = 0; i < rows.length; i++) {
-            var manv = removeVietnameseAccents(rows[i].cells[0].textContent.toLowerCase()); // Mã NV
-            var hoten = removeVietnameseAccents(rows[i].cells[1].textContent.toLowerCase()); // Họ tên
-            var sdt = removeVietnameseAccents(rows[i].cells[2].textContent.toLowerCase()); // Số ĐT
-            var gmail = removeVietnameseAccents(rows[i].cells[3].textContent.toLowerCase()); // Gmail
+            var manv = removeVietnameseAccents(rows[i].cells[0].textContent.toLowerCase());
+            var hoten = removeVietnameseAccents(rows[i].cells[1].textContent.toLowerCase());
+            var sdt = removeVietnameseAccents(rows[i].cells[2].textContent.toLowerCase());
+            var gmail = removeVietnameseAccents(rows[i].cells[3].textContent.toLowerCase());
             if (manv.includes(searchTerm) || hoten.includes(searchTerm) || sdt.includes(searchTerm) || gmail.includes(searchTerm)) {
                 rows[i].style.display = "";
             } else {

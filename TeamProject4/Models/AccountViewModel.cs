@@ -1,4 +1,6 @@
-﻿namespace Team_Project_4.Models
+﻿using System;
+
+namespace Team_Project_4.ViewModels
 {
     public class AccountViewModel
     {
@@ -8,5 +10,6 @@
         public string Gmail { get; set; } = null!;
         public string Tentknv { get; set; } = null!;
         public string Mktk { get; set; } = null!;
+        public bool IsActive { get; set; } = true;
     }
 }

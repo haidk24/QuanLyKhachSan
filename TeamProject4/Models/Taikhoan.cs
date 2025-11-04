@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,8 +14,11 @@ namespace Team_Project_4.Models
         public string Mktk { get; set; } = null!;
         public int Manv { get; set; }
 
-        // FIX: Làm nullable, bỏ null! để không required validation. [NotMapped] nếu không cần EF load navigation khi insert
-        [NotMapped] // Bỏ qua validation/insert cho navigation (chỉ dùng FK Manv)
-        public virtual Nhanvien? ManvNavigation { get; set; } = null; // Nullable, không required
+        // Thêm cột IsActive
+        public bool IsActive { get; set; } = true;
+
+        // Giữ navigation property nhưng đánh dấu NotMapped để tránh binding trực tiếp
+        [NotMapped]
+        public virtual Nhanvien? ManvNavigation { get; set; } = null;
     }
 }

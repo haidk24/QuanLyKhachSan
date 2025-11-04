@@ -13,7 +13,7 @@ namespace Team_Project_4.Repositories
 
         public TaikhoanRepository(HotelDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
         public async Task AddAsync(Taikhoan taikhoan)
@@ -22,24 +22,24 @@ namespace Team_Project_4.Repositories
             {
                 if (taikhoan == null)
                 {
-                    Debug.WriteLine("Taikhoan null, không add");
+                    Debug.WriteLine("[ERROR] Taikhoan null, không add");
                     return;
                 }
 
                 _dbContext.Taikhoans.Add(taikhoan);
                 await _dbContext.SaveChangesAsync();
-                Debug.WriteLine("Add Taikhoan thành công: " + taikhoan.Tentknv);
+                Debug.WriteLine($"[DEBUG] Add Taikhoan thành công: {taikhoan.Tentknv}, Matknv: {taikhoan.Matknv}");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Lỗi AddAsync Taikhoan: " + ex.Message + " | Inner: " + ex.InnerException?.Message);
+                Debug.WriteLine($"[ERROR] AddAsync Taikhoan: {ex.Message} | Inner: {ex.InnerException?.Message} | StackTrace: {ex.StackTrace}");
                 throw;
             }
         }
 
         public async Task UpdateByNv(int manv, string newEmail)
         {
-            Taikhoan tk = await _dbContext.Taikhoans.FirstOrDefaultAsync(tk => tk.Manv == manv);
+            var tk = await _dbContext.Taikhoans.FirstOrDefaultAsync(tk => tk.Manv == manv);
             if (tk != null)
             {
                 tk.Tentknv = newEmail;
@@ -47,20 +47,45 @@ namespace Team_Project_4.Repositories
             }
         }
 
-        public async Task DeleteByManv(int manv)
+        public async Task<bool> ToggleAccountStatus(int manv, bool activate)
         {
-            Taikhoan tk = await _dbContext.Taikhoans.FirstOrDefaultAsync(tk => tk.Manv == manv);
-            if (tk != null)
+            try
             {
-                Debug.WriteLine("id tk: " + tk.Matknv);
-                _dbContext.Remove(tk);
-                await _dbContext.SaveChangesAsync();
+                Debug.WriteLine($"[DEBUG] Bắt đầu {(activate ? "kích hoạt" : "vô hiệu hóa")} Taikhoan với Manv = {manv}");
+                var taikhoans = await _dbContext.Taikhoans
+                    .Where(tk => tk.Manv == manv)
+                    .ToListAsync();
+                if (taikhoans == null || !taikhoans.Any())
+                {
+                    Debug.WriteLine($"[DEBUG] Không tìm thấy Taikhoan với Manv = {manv}");
+                    return false;
+                }
+
+                Debug.WriteLine($"[DEBUG] Tìm thấy {taikhoans.Count} bản ghi: {string.Join(", ", taikhoans.Select(tk => tk.Matknv))}");
+                foreach (var tk in taikhoans)
+                {
+                    tk.IsActive = activate; // Kích hoạt hoặc vô hiệu hóa
+                }
+                int rowsAffected = await _dbContext.SaveChangesAsync();
+                Debug.WriteLine($"[DEBUG] {(activate ? "Kích hoạt" : "Vô hiệu hóa")} thành công, ảnh hưởng {rowsAffected} hàng với Manv = {manv}");
+                return true;
+            }
+            catch (DbUpdateException ex)
+            {
+                Debug.WriteLine($"[ERROR] DbUpdateException khi {(activate ? "kích hoạt" : "vô hiệu hóa")}: {ex.Message} | Inner: {ex.InnerException?.Message} | StackTrace: {ex.StackTrace}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[ERROR] Lỗi {(activate ? "kích hoạt" : "vô hiệu hóa")}: {ex.Message} | Inner: {ex.InnerException?.Message} | StackTrace: {ex.StackTrace}");
+                throw;
             }
         }
 
         public async Task<Taikhoan> GetByUsernameAndPasswordAsync(string tentknv, string mktk)
         {
-            return await _dbContext.Taikhoans.FirstOrDefaultAsync(t => t.Tentknv == tentknv && t.Mktk == mktk);
+            return await _dbContext.Taikhoans
+                .FirstOrDefaultAsync(t => t.Tentknv == tentknv && t.Mktk == mktk && t.IsActive);
         }
 
         public async Task CreateAccountForAllEmployee(IEnumerable<Taikhoan> accounts)
@@ -69,17 +94,17 @@ namespace Team_Project_4.Repositories
             {
                 if (accounts == null || !accounts.Any())
                 {
-                    Debug.WriteLine("Danh sách accounts rỗng, không create");
+                    Debug.WriteLine("[ERROR] Danh sách accounts rỗng, không create");
                     return;
                 }
 
                 _dbContext.Taikhoans.AddRange(accounts);
                 await _dbContext.SaveChangesAsync();
-                Debug.WriteLine("CreateAccountForAllEmployee thành công: " + accounts.Count() + " accounts");
+                Debug.WriteLine($"[DEBUG] CreateAccountForAllEmployee thành công: {accounts.Count()} accounts");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Lỗi CreateAccountForAllEmployee: " + ex.Message + " | Inner: " + ex.InnerException?.Message);
+                Debug.WriteLine($"[ERROR] CreateAccountForAllEmployee: {ex.Message} | Inner: {ex.InnerException?.Message} | StackTrace: {ex.StackTrace}");
                 throw;
             }
         }
@@ -89,10 +114,16 @@ namespace Team_Project_4.Repositories
             return await _dbContext.Taikhoans.FirstOrDefaultAsync(t => t.Tentknv == tentknv);
         }
 
-        // Thêm method lấy toàn bộ tài khoản
         public async Task<List<Taikhoan>> GetAllAsync()
         {
             return await _dbContext.Taikhoans.ToListAsync();
+        }
+
+        public async Task<Taikhoan> GetByManvAsync(int manv)
+        {
+            return await _dbContext.Taikhoans
+                .Where(tk => tk.Manv == manv)
+                .FirstOrDefaultAsync();
         }
     }
 }
