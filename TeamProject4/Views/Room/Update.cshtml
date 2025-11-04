@@ -1,105 +1,280 @@
-﻿
-@model Phong
+﻿@model Phong
 @{
     ViewData["Title"] = "Update room";
     Layout = "_ManagerLayout";
 }
-<div class="text-center">
-    <h2 class="display-4">CẬP NHẬT PHÒNG</h2>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+    * {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    .page-header {
+        padding: 2.5rem 2rem;
+    }
+
+        .page-header h2 {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0;
+            letter-spacing: 0.5px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+    .form-container {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+        .form-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+    .form-control {
+        border: 2px solid #e8ecf1;
+        border-radius: 10px;
+        padding: 0.875rem 1.25rem;
+        font-size: 0.95rem;
+        background: #f8f9fa;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.15);
+        }
+
+    .input-group-text {
+        padding: 0.875rem 1.25rem;
+    }
+
+    .text-danger {
+        font-size: 0.85rem;
+    }
+
+    .btn-custom {
+        border-radius: 12px;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-back {
+        background: linear-gradient(135deg,#ffecd2 0%,#fcb69f 100%);
+        color: #333;
+    }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(252,182,159,0.4);
+        }
+
+    .btn-primary-custom {
+        background: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+        color: white;
+    }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+        }
+
+    .alert {
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .alert-success {
+        background: linear-gradient(135deg,#a8edea 0%,#fed6e3 100%);
+        color: #155724;
+    }
+
+    .alert-danger {
+        background: linear-gradient(135deg,#ffecd2 0%,#fcb69f 100%);
+        color: #721c24;
+    }
+
+    .alert i {
+        font-size: 1.25rem;
+    }
+
+    @@media (max-width: 768px) {
+        .button-group
+
+    {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .btn-custom {
+        width: 100%;
+        justify-content: center;
+    }
+
+    }
+
+    @@keyframes fadeInUp {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+</style>
+
+<div class="page-header">
+    <h2><i class="fas fa-edit me-2"></i>CẬP NHẬT THÔNG TIN PHÒNG</h2>
 </div>
 
-<!-- Main content container -->
-<div class="container mt-5">
-    <!-- Form for creating a room -->
-    <form asp-action="Update" method="post">
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <input hidden asp-for="Map" />
-                <!-- Room name input -->
-                <div class="form-group">
-                    <label asp-for="Tenphong" class="font-weight-bold">Tên phòng</label>
-                    <input type="text" asp-for="Tenphong" class="form-control" />
-                    <span asp-validation-for="Tenphong" class="text-danger"></span>
-                </div>
+<div class="container">
+    @if (TempData["UpdateSuccess"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i> @TempData["UpdateSuccess"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["UpdateError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle"></i> @TempData["UpdateError"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
 
-                <!-- Room type selection -->
-                <div class="form-group">
-                    <label asp-for="Maloaiphong" class="font-weight-bold">Loại phòng</label>
-                    <select class="form-control" asp-for="Maloaiphong" id="roomType" asp-items="ViewBag.RoomType"></select>
-                    <span asp-validation-for="Maloaiphong" class="text-danger"></span>
-                </div>
+    <div class="form-container">
+        <form asp-action="Update" method="post">
+            <input hidden asp-for="Map" />
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
-                <!-- Room price input -->
-                <div class="form-group">
-                    <label class="font-weight-bold">Đơn giá</label>
-                    <div class="input-group">
-                        <input type="number" asp-for="MaloaiphongNavigation.Dongia" id="Price" class="form-control" readonly />
-                        <div class="input-group-append">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Tenphong"><i class="fas fa-door-open me-1"></i>Tên phòng</label>
+                        <input asp-for="Tenphong" class="form-control" />
+                        <span asp-validation-for="Tenphong" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Maloaiphong"><i class="fas fa-layer-group me-1"></i>Loại phòng</label>
+                        <select asp-for="Maloaiphong" class="form-control" id="roomType" asp-items="ViewBag.RoomType"></select>
+                        <span asp-validation-for="Maloaiphong" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-coins me-1"></i>Đơn giá</label>
+                        <div class="input-group">
+                            <input asp-for="MaloaiphongNavigation.Dongia" class="form-control" id="Price" readonly />
                             <span class="input-group-text">VND</span>
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Tinhtrang"><i class="fas fa-info-circle me-1"></i>Tình trạng</label>
+                        <select asp-for="Tinhtrang" class="form-control">
+                            <option value="1">Trống</option>
+                            <option value="2">Bận</option>
+                        </select>
+                        <span asp-validation-for="Tinhtrang" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Soluongkhachtoida"><i class="fas fa-users me-1"></i>Số khách tối đa</label>
+                        <input asp-for="Soluongkhachtoida" type="number" class="form-control" />
+                        <span asp-validation-for="Soluongkhachtoida" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Ghichu"><i class="fas fa-sticky-note me-1"></i>Ghi chú</label>
+                        <input asp-for="Ghichu" class="form-control" />
+                    </div>
+                </div>
             </div>
 
-            <div class="col-md-6">
-                <!-- Room status checkbox -->
-                <div class="form-group">
-                    <label class="font-weight-bold" asp-for="Tinhtrang">Tình trạng</label>
-                    <select class="form-control" asp-for="Tinhtrang" id="roomType">
-                        <option value="1">Trống</option>
-                        <option value="2">Bận</option>
-                    </select>
-                    <span asp-validation-for="Tinhtrang" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="font-weight-bold" asp-for="Soluongkhachtoida">Số khách ở tối đa</label>
-                    <input asp-for="Soluongkhachtoida" type="number" id="numberCustomer" class="form-control">
-                    <span asp-validation-for="Soluongkhachtoida" class="text-danger"></span>
-                </div>
-                <!-- Room note input -->
-                <div class="form-group">
-                    <label asp-for="Ghichu" class="font-weight-bold">Ghi chú</label>
-                    <input type="text" asp-for="Ghichu" class="form-control" />
-                </div>
+            <div class="d-flex justify-content-between mt-4 button-group">
+                <a asp-action="RoomList" asp-route-manager="@(TempData["Manager"] ?? 0)" class="btn btn-custom btn-back">
+                    <i class="fas fa-arrow-left me-1"></i>Quay lại danh sách
+                </a>
+                <button type="submit" class="btn btn-custom btn-primary-custom">
+                    <i class="fas fa-save me-1"></i>Cập nhật phòng
+                </button>
             </div>
-        </div>
-
-        <!-- Button section -->
-        <div class="row mt-4">
-            <div class="col-md-6 d-flex justify-content-start">
-                <!-- Button to view the room list (Aligned to the left) -->
-                <a asp-action="RoomList" class="btn btn-warning btn-block mr-auto" asp-route-manager="@(TempData["Manager"].ToString())">Xem danh sách phòng</a>
-            </div>
-            <div class="col-md-6 d-flex justify-content-end">
-                <!-- Button to update room with room ID (Aligned to the right) -->
-                <button type="submit" class="btn btn-primary btn-block ml-auto" asp-route-manager="@(TempData["Manager"].ToString())">Cập nhật phòng</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
 
-<script>
-    var roomTypeDropdown = document.getElementById("roomType");
-    var priceField = document.getElementById("Price");
-    var roomTypes = @Html.Raw(Json.Serialize(ViewBag.RoomType));
-    var roomDongia = @Html.Raw(Json.Serialize(ViewBag.RoomType2));
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Auto dismiss alerts after 5 seconds
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
 
-    roomTypeDropdown.addEventListener("change", function () {
-        var selectedType = this.value;
-        var selectedRoomType = roomTypes.find(function (roomType) {
-            return roomType.value === selectedType;
+        // Add animation to form inputs on focus
+        document.querySelectorAll('.form-control').forEach(function(input) {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+                this.parentElement.style.transition = 'all 0.3s ease';
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
         });
+        var roomTypeDropdown = document.getElementById("roomType");
+        var priceField = document.getElementById("Price");
+        var roomTypes = @Html.Raw(Json.Serialize(ViewBag.RoomType));
+        var roomDongia = @Html.Raw(Json.Serialize(ViewBag.RoomType2));
 
-        if (selectedRoomType) {
-            var maloaiphong = selectedRoomType.value;
-            var dongia = roomDongia.find(function (room) {
-                return room.value === maloaiphong;
+        roomTypeDropdown.addEventListener("change", function () {
+            var selectedType = this.value;
+            var selectedRoomType = roomTypes.find(function (roomType) {
+                return roomType.value === selectedType;
             });
 
-            if (dongia) {
-                priceField.value = dongia.text;
+            if (selectedRoomType) {
+                var maloaiphong = selectedRoomType.value;
+                var dongia = roomDongia.find(function (room) {
+                    return room.value === maloaiphong;
+                });
+
+                if (dongia) {
+                    priceField.value = dongia.text;
+                }
             }
-        }
-    });
-</script>
+        });
+    </script>
+}
