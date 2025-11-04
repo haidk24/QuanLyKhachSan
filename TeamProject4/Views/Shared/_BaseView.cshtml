@@ -1,13 +1,15 @@
 ﻿@{
-    string userRole = Context.Session.GetString("UserRole");
-    if (userRole == "Manager")
+    var role = ViewBag.Role as string;
+    if (role == "Manager")
     {
         Layout = "_ManagerLayout";
     }
-    else if (userRole == "Staff")
+    else
     {
-        Layout = "_StaffLayout";    
+        Layout = "_StaffLayout";
     }
 }
 
 @RenderBody()
+
+@RenderSection("Scripts", required: false)
