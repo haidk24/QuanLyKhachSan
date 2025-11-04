@@ -4,132 +4,404 @@
     Layout = "_BaseView";
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-<link rel="stylesheet" href="path/to/font-awesome/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<div class="text-center">
-    <h2 class="display-4">QUẢN LÝ THÔNG TIN KHÁCH HÀNG</h2>
-</div>
+<style>
+    * {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
 
-<div style="display: flex; justify-content: space-between; align-items: center ;width:100%">
-    <form id="searchForm" asp-controller="Client" asp-action="ClientList" method="get" class="d-flex" style="width:468px">
-        <div class="input-group">
-            <!-- Search bar -->
-            <input name="searchString" id="searchString" type="search" placeholder="Tìm tên khách hàng..." class="form-control rounded" aria-label="Search" , style="width:200px">
-            <button class="btn btn-info rounded" type="submit">
-                <i class="fas fa-search"></i>
-            </button>
-            <!--Room type -->
-            <select id="clientType" name="clientType" class="form-select" asp-items="ViewBag.ClientTypeList" style="margin-left: 20px;width:30px" class="rounded"></select>
-        </div>
-    </form>
+    .page-header {
+        padding: 2.5rem 2rem;
+    }
 
-    <!-- Link for creating a new room -->
-    <a asp-action="Create" class="btn btn-primary mb-3 rounded" asp-route-manager="@(TempData["Manager"].ToString())">Thêm khách hàng mới</a>
-</div>
-<div>
-</div>
-<table class="table table-striped table-bordered text-center">
-    <thead class="thead-dark">
-        <tr>
-            <th>
-                <a asp-action="ClientList" asp-route-sortOrder="@(ViewData["MaSortParam"]?.ToString())" asp-route-sortColumn="Makh" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]">STT<i class="fas fa-sort"></i></a>
-            </th>
-            <th>
-                <a asp-action="ClientList" asp-route-sortOrder="@(ViewData["TenSortParam"]?.ToString())" asp-route-sortColumn="Tenkh" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]">Tên Khách Hàng <i class="fas fa-sort"></i></a>
-            </th>
-            <th>CMND</th>
-            <th>
-                <a asp-action="ClientList" asp-route-sortOrder="@(ViewData["TuoiSortParam"])" asp-route-sortColumn="Tuoi" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]">Tuổi <i class="fas fa-sort"></i></a>
-            </th>
-            <th>Loại Khách</th>
-            <th>SĐT</th>
-            <th>Diachikh</th>
-            
-            <th>Tác vụ</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var client in Model.Items)
-        {
-            <tr>
-                <td>@(Model.Items.IndexOf(client)+1)</td>
-                <td>@client.Tenkh</td>
-                <td>@client.Cmndkh</td>
-                <td>@client.Tuoi</td>
-                <td>@client.MaloaikhachNavigation.Tenloaikhach</td>                              
-                <td>@client.Tel</td>      
-                <td>@client.Diachikh</td>
-                
-                
-                <td>
-                    <a asp-action="Update" asp-route-clientid="@client.Makh" class="btn btn-info btn-sm rounded">Cập nhật</a>
-                    <form asp-action="Delete" asp-route-clientid="@client.Makh" class="d-inline">
-                        <input type="hidden" name="manager" value="@(TempData["Manager"].ToString())" />
-                        <button type="submit" class="btn btn-danger btn-sm rounded">Xóa</button>
-                    </form>
-                </td>
-            </tr>
+        .page-header h2 {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0;
+            letter-spacing: 0.5px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-    </tbody>
-</table>
 
-<div class="row">
-    <div class="col-md-12 text-center">
-        <nav>
-            <ul class="pagination justify-content-center">
-                <li class="page-item @(Model.PageIndex == 1 ? "disabled" : "")">
-                    <a class="page-link text-black" asp-route-pageNumber="1"
-                       asp-route-SortOrder="@ViewData["SortOrder"]"
-                       asp-route-sortColumn="@ViewData["sortColumn"]"
-                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                       asp-route-currentFilter2="@ViewData["CurrentFilter2"]">
-                        <span>Đầu</span>
-                    </a>
-                </li>
-                <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-                    <a class="page-link text-black" asp-route-pageNumber="@(Model.PageIndex - 1)"
-                       asp-route-SortOrder="@ViewData["SortOrder"]"
-                       asp-route-sortColumn="@ViewData["sortColumn"]"
-                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                       asp-route-currentFilter2="@ViewData["CurrentFilter2"]">
-                        <i class="bi bi-chevron-left"></i>
-                    </a>
-                </li>
 
-                @if (Model.TotalPages <= 5)
-                {
-                    for (int i = 1; i <= Model.TotalPages; i++)
-                    {
-                        <li class="page-item @(Model.PageIndex == i ? "active" : "")">
-                            <a class="page-link text-black" asp-route-pageNumber="@i"
-                               asp-route-SortOrder="@ViewData["SortOrder"]"
-                               asp-route-sortColumn="@ViewData["sortColumn"]"
-                               asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                               asp-route-currentFilter2="@ViewData["CurrentFilter2"]">@i</a>
-                        </li>
-                    }
+    .content-card {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        margin-bottom: 1.5rem;
+    }
+
+    .search-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+    }
+
+    .search-box {
+        flex: 1;
+        min-width: 300px;
+        max-width: 600px;
+    }
+
+        .search-box .input-group {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            overflow: visible;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .search-box input {
+            border: none;
+            padding: 0.875rem 1.25rem;
+            font-size: 0.95rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            flex: 1;
+        }
+
+            .search-box input:focus {
+                background: white;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+                outline: none;
+            }
+
+        .search-box select {
+            border: none;
+            padding: 0.875rem 1.25rem;
+            font-size: 0.95rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            cursor: pointer;
+            min-width: 180px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 12px;
+        }
+
+            .search-box select:focus {
+                background-color: white;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+                outline: none;
+            }
+
+        .search-box button {
+            border: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 0.875rem 1.5rem;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+        }
+
+            .search-box button:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            }
+
+    .btn-add-new {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        border: none;
+        padding: 0.875rem 2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        color: white;
+        box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+        .btn-add-new:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+            color: white;
+        }
+
+    .table-container {
+        overflow-x: auto;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    }
+
+    .table {
+        margin: 0;
+        border: none;
+    }
+
+        .table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+            .table thead th {
+                color: white;
+                font-weight: 600;
+                border: none;
+                padding: 1.25rem 1rem;
+                font-size: 0.9rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                text-align: center;
+                vertical-align: middle;
+            }
+
+                .table thead th a {
+                    color: white;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    transition: all 0.2s ease;
                 }
-                else
-                {
-                    @if (Model.PageIndex <= 3)
-                    {
-                        for (int i = 1; i <= 5; i++)
-                        {
-                            <li class="page-item @(Model.PageIndex == i ? "active" : "")">
-                                <a class="page-link text-black" asp-route-pageNumber="@i"
-                                   asp-route-SortOrder="@ViewData["SortOrder"]"
-                                   asp-route-sortColumn="@ViewData["sortColumn"]"
-                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                                   asp-route-currentFilter2="@ViewData["CurrentFilter2"]">@i</a>
-                            </li>
-                        }
+
+                    .table thead th a:hover {
+                        opacity: 0.9;
+                        transform: translateY(-1px);
                     }
-                    else if (Model.PageIndex >= Model.TotalPages - 2)
+
+        .table tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+            .table tbody tr:hover {
+                background: linear-gradient(90deg, #f8f9ff 0%, #fff 100%);
+                transform: scale(1.01);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            }
+
+        .table tbody td {
+            padding: 1.25rem 1rem;
+            vertical-align: middle;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+    .btn-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 120px;
+        padding: 0.6rem 1rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border: none;
+        transition: all 0.3s ease;
+        margin: 0 6px;
+        white-space: nowrap;
+    }
+
+    .btn-update {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+    }
+
+        .btn-update:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 172, 254, 0.4);
+            color: white;
+        }
+
+    .btn-delete {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        color: white;
+    }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(250, 112, 154, 0.4);
+            color: white;
+        }
+
+    .alert {
+        border: none;
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .alert-danger {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        color: #721c24;
+    }
+
+    .pagination {
+        gap: 0.5rem;
+        margin-top: 2rem;
+    }
+
+        .pagination .page-item .page-link {
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: #667eea;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 0 0.25rem;
+        }
+
+        .pagination .page-item.active .page-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .pagination .page-item:not(.disabled):not(.active) .page-link:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #ccc;
+        }
+
+    @@media (max-width: 768px) {
+        .page-header h2 {
+            font-size: 1.5rem;
+        }
+
+        .search-section {
+            flex-direction: column;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 100%;
+        }
+
+            .search-box .input-group {
+                flex-direction: column;
+            }
+
+        .btn-add-new {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="page-header">
+    <h2><i class="fas fa-users me-3"></i>QUẢN LÝ THÔNG TIN KHÁCH HÀNG</h2>
+</div>
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i>@ViewBag.ErrorMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="content-card">
+    <div class="search-section">
+        <form id="searchForm" asp-controller="Client" asp-action="ClientList" method="get" class="search-box">
+            <div class="input-group">
+                <input name="searchString" id="searchString" type="search" placeholder="🔍 Tìm tên khách hàng..." class="form-control">
+                <button class="btn btn-info" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>                    
+                <select id="clientType" name="clientType" class="form-select" asp-items="ViewBag.ClientTypeList"></select>
+            </div>                
+
+        </form>
+
+        <a asp-action="Create" class="btn btn-add-new" asp-route-manager="@(TempData["Manager"].ToString())">
+            <i class="fas fa-plus-circle me-2"></i>Thêm khách hàng mới
+        </a>
+    </div>
+
+    <div class="table-container">
+        <table class="table table-hover text-center" id="ClientListTable">
+            <thead>
+                <tr>
+                    <th>
+                        <a asp-action="ClientList" asp-route-sortOrder="@(ViewData["MaSortParam"]?.ToString())" asp-route-sortColumn="Makh" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]">
+                            STT<i class="fas fa-sort ms-1"></i>
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="ClientList" asp-route-sortOrder="@(ViewData["TenSortParam"]?.ToString())" asp-route-sortColumn="Tenkh" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]">
+                            Tên Khách Hàng<i class="fas fa-sort ms-1"></i>
+                        </a>
+                    </th>
+                    <th>CMND</th>
+                    <th>
+                        <a asp-action="ClientList" asp-route-sortOrder="@(ViewData["TuoiSortParam"])" asp-route-sortColumn="Tuoi" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-currentFilter2="@ViewData["CurrentFilter2"]">
+                            Tuổi<i class="fas fa-sort ms-1"></i>
+                        </a>
+                    </th>
+                    <th>Loại Khách</th>
+                    <th>SĐT</th>
+                    <th>Địa chỉ</th>
+                    <th>Tác vụ</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var client in Model.Items)
+                {
+                    <tr>
+                        <td><strong>@(Model.Items.IndexOf(client) + 1)</strong></td>
+                        <td>@client.Tenkh</td>
+                        <td>@client.Cmndkh</td>
+                        <td>@client.Tuoi</td>
+                        <td>@client.MaloaikhachNavigation.Tenloaikhach</td>
+                        <td>@client.Tel</td>
+                        <td>@client.Diachikh</td>
+                        <td>
+                            <a asp-action="Update" asp-route-clientid="@client.Makh" class="btn btn-action btn-update">
+                                <i class="fas fa-edit me-1"></i>Cập nhật
+                            </a>
+                            <form asp-action="Delete" asp-route-clientid="@client.Makh" class="d-inline">
+                                <input type="hidden" name="manager" value="@(TempData["Manager"].ToString())" />
+                                <button type="submit" class="btn btn-action btn-delete" onclick="return confirm('Bạn có chắc muốn xóa khách hàng này?')">
+                                    <i class="fas fa-trash-alt me-1"></i>Xóa
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(Model.PageIndex == 1 ? "disabled" : "")">
+                        <a class="page-link" asp-route-pageNumber="1"
+                           asp-route-SortOrder="@ViewData["SortOrder"]"
+                           asp-route-sortColumn="@ViewData["sortColumn"]"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           asp-route-currentFilter2="@ViewData["CurrentFilter2"]">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                        <a class="page-link" asp-route-pageNumber="@(Model.PageIndex - 1)"
+                           asp-route-SortOrder="@ViewData["SortOrder"]"
+                           asp-route-sortColumn="@ViewData["sortColumn"]"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           asp-route-currentFilter2="@ViewData["CurrentFilter2"]">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+
+                    @if (Model.TotalPages <= 5)
                     {
-                        for (int i = Model.TotalPages - 4; i <= Model.TotalPages; i++)
+                        for (int i = 1; i <= Model.TotalPages; i++)
                         {
                             <li class="page-item @(Model.PageIndex == i ? "active" : "")">
-                                <a class="page-link text-black" asp-route-pageNumber="@i"
+                                <a class="page-link" asp-route-pageNumber="@i"
                                    asp-route-SortOrder="@ViewData["SortOrder"]"
                                    asp-route-sortColumn="@ViewData["sortColumn"]"
                                    asp-route-currentFilter="@ViewData["CurrentFilter"]"
@@ -139,43 +411,81 @@
                     }
                     else
                     {
-                        for (int i = Model.PageIndex - 2; i <= Model.PageIndex + 2; i++)
+                        @if (Model.PageIndex <= 3)
                         {
-                            <li class="page-item @(Model.PageIndex == i ? "active" : "")">
-                                <a class="page-link text-black" asp-route-pageNumber="@i"
-                                   asp-route-SortOrder="@ViewData["SortOrder"]"
-                                   asp-route-sortColumn="@ViewData["sortColumn"]"
-                                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                                   asp-route-currentFilter2="@ViewData["CurrentFilter2"]">@i</a>
-                            </li>
+                            for (int i = 1; i <= 5; i++)
+                            {
+                                <li class="page-item @(Model.PageIndex == i ? "active" : "")">
+                                    <a class="page-link" asp-route-pageNumber="@i"
+                                       asp-route-SortOrder="@ViewData["SortOrder"]"
+                                       asp-route-sortColumn="@ViewData["sortColumn"]"
+                                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                       asp-route-currentFilter2="@ViewData["CurrentFilter2"]">@i</a>
+                                </li>
+                            }
+                        }
+                        else if (Model.PageIndex >= Model.TotalPages - 2)
+                        {
+                            for (int i = Model.TotalPages - 4; i <= Model.TotalPages; i++)
+                            {
+                                <li class="page-item @(Model.PageIndex == i ? "active" : "")">
+                                    <a class="page-link" asp-route-pageNumber="@i"
+                                       asp-route-SortOrder="@ViewData["SortOrder"]"
+                                       asp-route-sortColumn="@ViewData["sortColumn"]"
+                                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                       asp-route-currentFilter2="@ViewData["CurrentFilter2"]">@i</a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            for (int i = Model.PageIndex - 2; i <= Model.PageIndex + 2; i++)
+                            {
+                                <li class="page-item @(Model.PageIndex == i ? "active" : "")">
+                                    <a class="page-link" asp-route-pageNumber="@i"
+                                       asp-route-SortOrder="@ViewData["SortOrder"]"
+                                       asp-route-sortColumn="@ViewData["sortColumn"]"
+                                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                                       asp-route-currentFilter2="@ViewData["CurrentFilter2"]">@i</a>
+                                </li>
+                            }
                         }
                     }
-                }
 
-                <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-                    <a class="page-link text-black" asp-route-pageNumber="@(Model.PageIndex + 1)"
-                       asp-route-SortOrder="@ViewData["SortOrder"]"
-                       asp-route-sortColumn="@ViewData["sortColumn"]"
-                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                       asp-route-currentFilter2="@ViewData["CurrentFilter2"]">
-                        <i class="bi bi-chevron-right"></i>
-                    </a>
-                </li>
-                <li class="page-item @(Model.PageIndex == Model.TotalPages ? "disabled" : "")">
-                    <a class="page-link text-black" asp-route-pageNumber="@Model.TotalPages"
-                       asp-route-SortOrder="@ViewData["SortOrder"]"
-                       asp-route-sortColumn="@ViewData["sortColumn"]"
-                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                       asp-route-currentFilter2="@ViewData["CurrentFilter2"]">
-                        <span>Cuối</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+                    <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                        <a class="page-link" asp-route-pageNumber="@(Model.PageIndex + 1)"
+                           asp-route-SortOrder="@ViewData["SortOrder"]"
+                           asp-route-sortColumn="@ViewData["sortColumn"]"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           asp-route-currentFilter2="@ViewData["CurrentFilter2"]">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item @(Model.PageIndex == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" asp-route-pageNumber="@Model.TotalPages"
+                           asp-route-SortOrder="@ViewData["SortOrder"]"
+                           asp-route-sortColumn="@ViewData["sortColumn"]"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           asp-route-currentFilter2="@ViewData["CurrentFilter2"]">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 </div>
 
 <script>
+    // Auto dismiss alerts after 5 seconds
+    setTimeout(function() {
+        var alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+            var bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        });
+    }, 5000);
+
     // Function to store selected client type and search string in local storage
     function storeClientTypeAndSearchString() {
         const clientType = document.getElementById('clientType').value;
@@ -198,7 +508,7 @@
 
     // Function to handle form submission
     function handleFormSubmission() {
-        storeRoomTypeAndSearchString();
+        storeClientTypeAndSearchString();
     }
 
     // Function to handle client type change
@@ -217,14 +527,8 @@
         handleFormSubmission();
     });
 
-    // Add event listener to room type change
+    // Add event listener to client type change
     document.getElementById('clientType').addEventListener('change', function () {
         handleClientTypeChange();
     });
 </script>
-@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-{
-    <div class="alert alert-danger">
-        @ViewBag.ErrorMessage
-    </div>
-}

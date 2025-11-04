@@ -9,135 +9,211 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Team_Project_4.styles.css" asp-append-version="true" />
     <style>
-        /* Style chỉ áp dụng trong sidebar để tránh ảnh hưởng toàn cục */
-        #sidebar .nav-link {
-            color: #ccc;
-            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Thêm transition cho glow */
-            width: 100%;
-            padding: 0.5rem 1rem 0.5rem 0.75rem;
-            border-radius: 0 8px 8px 0; /* Bo góc chỉ bên phải cho top-level sát nền */
-            text-align: left;
+        * {
             margin: 0;
-            box-sizing: border-box; /* Bao gồm padding trong width */
-        }
-
-        /* Hover: Màu #7f8c8d với viền phát sáng nhẹ */
-        #sidebar .nav-link:hover {
-            background-color: #7f8c8d;
-            color: #fff;
-            box-shadow: 0 0 8px rgba(127, 140, 141, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.1); /* Glow nhẹ bên ngoài + viền sáng trong */
-        }
-
-        /* Active: Màu #303952 với viền phát sáng */
-        #sidebar .nav-link.active {
-            background-color: #303952;
-            color: #fff !important;
-            font-weight: 600;
-            box-shadow: 0 0 10px rgba(48, 57, 82, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.2); /* Glow mạnh hơn cho active, khớp màu mới */
-        }
-
-        /* Biểu tượng cũng đổi màu - chỉ trong sidebar */
-        #sidebar .nav-link.active i,
-        #sidebar .nav-link:hover i {
-            color: #fff;
-        }
-
-        /* Kích thước biểu tượng top-level: to */
-        #sidebar > div > ul > li > .nav-link .bi {
-            font-size: 1.5rem;
-            width: 1.5rem;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        /* Kích thước biểu tượng submenu: nhỏ gọn hơn để tránh tràn */
-        #sidebar .collapse .nav-link .bi {
-            font-size: 0.875rem; /* Nhỏ hơn nữa */
-            width: 0.875rem;
-            margin-right: 0.25rem; /* Spacing rất nhỏ */
-            flex-shrink: 0;
-        }
-
-        /* Full-width cho ul và nav-item để nav-link ôm sát nền đen */
-        #sidebar ul {
-            width: 100%;
             padding: 0;
-            margin: 0;
-        }
-
-        #sidebar .nav-item {
-            width: 100%;
-            padding: 0;
-            margin-bottom: 0.25rem;
-        }
-
-        /* Style riêng cho submenu: gọn hơn, indent vừa, KHÔNG TRÀN */
-        #sidebar .collapse {
-            width: 100%;
-            padding: 0;
-            margin: 0;
-        }
-
-        #sidebar .collapse .nav-link {
-            padding: 0.375rem 0.5rem 0.375rem 1.5rem; /* Giảm padding-right sát cạnh, indent 1.5rem */
-            border-radius: 8px; /* Bo góc full cho submenu */
-            font-size: 0.875rem; /* Text nhỏ gọn hơn */
-            margin-bottom: 0.125rem; /* Spacing nhỏ */
-            max-width: 100%; /* Ép không vượt width parent */
-            overflow: hidden; /* Ẩn nếu text quá dài (fallback) */
-            white-space: nowrap; /* Không wrap text để gọn */
             box-sizing: border-box;
         }
 
-        /* Áp dụng hover/active cho submenu */
-        #sidebar .collapse .nav-link:hover {
-            background-color: #7f8c8d;
-            color: #fff;
-            box-shadow: 0 0 8px rgba(127, 140, 141, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.1); /* Glow nhất quán */
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
         }
 
-        /* Active cho submenu: Màu #303952 với viền phát sáng */
-        #sidebar .collapse .nav-link.active {
-            background-color: #303952;
-            color: #fff !important;
-            box-shadow: 0 0 10px rgba(48, 57, 82, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.2); /* Glow mạnh hơn cho active, khớp màu mới */
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
         }
 
-        /* Fixed sidebar setup */
+        /* Sidebar Styles */
         #sidebar {
-            width: 280px;
+            width: 260px;
             position: fixed;
             top: 0;
             left: 0;
             height: 100vh;
+            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+            color: #ecf0f1;
+            padding: 1.5rem 0;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.15);
             z-index: 1030;
-            transition: transform 0.3s ease-in-out;
-            overflow: hidden; /* Ngăn tràn toàn bộ sidebar */
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
-        /* Content margin để tránh overlap */
+            /* Custom Scrollbar */
+            #sidebar::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            #sidebar::-webkit-scrollbar-track {
+                background: rgba(0,0,0,0.1);
+            }
+
+            #sidebar::-webkit-scrollbar-thumb {
+                background: rgba(255,255,255,0.3);
+                border-radius: 3px;
+            }
+
+                #sidebar::-webkit-scrollbar-thumb:hover {
+                    background: rgba(255,255,255,0.5);
+                }
+
+        /* Sidebar Header */
+        .sidebar-header {
+            padding: 0 1.5rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 1.5rem;
+        }
+
+            .sidebar-header h3 {
+                font-size: 1.4rem;
+                font-weight: 700;
+                color: #fff;
+                letter-spacing: 0.5px;
+                margin: 0;
+                line-height: 1.4;
+            }
+
+        /* Mobile Menu Toggle */
+        #menuToggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1031;
+            border: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+            #menuToggle:hover {
+                transform: scale(1.05);
+                box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            }
+
+            #menuToggle i {
+                font-size: 1.5rem;
+            }
+
+        /* Navigation Menu */
+        #menu {
+            list-style: none;
+            padding: 0 0.75rem;
+            margin: 0;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            color: #bdc3c7;
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .nav-link::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 4px;
+                background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+                transform: scaleY(0);
+                transition: transform 0.3s ease;
+            }
+
+            .nav-link:hover {
+                background: rgba(102, 126, 234, 0.15);
+                color: #fff;
+                transform: translateX(3px);
+            }
+
+                .nav-link:hover::before {
+                    transform: scaleY(1);
+                }
+
+            .nav-link.active {
+                background: linear-gradient(90deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+                color: #fff !important;
+                font-weight: 600;
+                box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+            }
+
+                .nav-link.active::before {
+                    transform: scaleY(1);
+                }
+
+            .nav-link i {
+                font-size: 1.3rem;
+                min-width: 1.5rem;
+                margin-right: 0.75rem;
+                transition: transform 0.3s ease;
+            }
+
+            .nav-link:hover i {
+                transform: scale(1.15);
+            }
+
+        /* Submenu Styles */
+        .collapse {
+            padding-left: 0.5rem;
+        }
+
+            .collapse .nav-link {
+                padding: 0.6rem 0.75rem 0.6rem 2.5rem;
+                font-size: 0.9rem;
+                border-radius: 8px;
+            }
+
+                .collapse .nav-link i {
+                    font-size: 1rem;
+                }
+
+        /* Logout Button */
+        .logout-section {
+            margin-top: auto;
+            padding: 1rem 0.75rem 0.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+            .logout-section .nav-link {
+                background: rgba(231, 76, 60, 0.1);
+                color: #e74c3c;
+            }
+
+                .logout-section .nav-link:hover {
+                    background: rgba(231, 76, 60, 0.2);
+                    color: #fff;
+                }
+
+        /* Main Content */
         .main-content {
-            margin-left: 280px;
-            transition: margin-left 0.3s ease-in-out;
+            margin-left: 260px;
             min-height: 100vh;
+            padding: 2rem;
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: calc(100% - 260px);
         }
 
-        /* Mobile: ẩn sidebar và reset margin */
-        @@media (max-width: 767.98px) {
-            #sidebar {
-                transform: translateX(-100%);
-            }
-            #sidebar.show {
-                transform: translateX(0);
-            }
-            .main-content {
-                margin-left: 0;
-            }
-        }
-
-        /* Overlay backdrop khi sidebar show trên mobile */
-        #sidebar.show ~ .main-content::before {
-            content: '';
+        /* Overlay for mobile */
+        .sidebar-overlay {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -145,113 +221,245 @@
             height: 100vh;
             background: rgba(0, 0, 0, 0.5);
             z-index: 1029;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+            .sidebar-overlay.show {
+                display: block;
+                opacity: 1;
+            }
+
+        /* Tablet Responsive (768px - 991px) */
+        @@media (max-width: 991px) {
+            #sidebar
+
+        {
+            width: 240px;
+        }
+
+        .main-content {
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            padding: 1.5rem;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.2rem;
+        }
+
+        }
+
+        @@media (max-width: 767px) {
+            #menuToggle
+
+        {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #sidebar {
+            transform: translateX(-100%);
+        }
+
+            #sidebar.show {
+                transform: translateX(0);
+                box-shadow: 4px 0 30px rgba(0,0,0,0.3);
+            }
+
+        .main-content {
+            margin-left: 0;
+            width: 100%;
+            padding: 5rem 1rem 1rem;
+        }
+
+        .sidebar-header {
+            padding-top: 3rem;
+        }
+
+        }
+
+        @@media (max-width: 575px) {
+            #sidebar
+
+        {
+            width: 280px;
+        }
+
+        .main-content {
+            padding: 5rem 0.75rem 0.75rem;
+        }
+
+        #menuToggle {
+            width: 40px;
+            height: 40px;
+        }
+
+            #menuToggle i {
+                font-size: 1.3rem;
+            }
+
+        }
+
+        @@media (max-height: 500px) and (orientation: landscape) {
+            #sidebar
+
+        {
+            padding: 0.5rem 0;
+        }
+
+        .sidebar-header {
+            padding: 0 1rem 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+            .sidebar-header h3 {
+                font-size: 1rem;
+            }
+
+        .nav-link {
+            padding: 0.5rem 0.75rem;
+        }
+
+        .logout-section {
+            padding: 0.5rem 0.75rem 0.25rem;
+        }
+
         }
     </style>
 </head>
 <body>
-    <div class="d-flex min-vh-100">
+    <!-- Mobile Menu Toggle -->
+    <button id="menuToggle" aria-label="Toggle Menu">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="d-flex">
         <!-- Sidebar -->
-        <nav id="sidebar" class="bg-dark px-1 pt-2 text-white">
-            <div class="d-flex flex-column align-items-start min-vh-100">
-                <button id="menuToggle" class="d-md-none btn btn-dark mb-3 ms-1">
-                    <i class="bi bi-list"></i>
-                </button>
-                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none w-100 ps-1">
-                    <span class="fs-5">Quản lý khách sạn</span>
-                </a>
-                <ul class="nav flex-column mb-sm-auto mb-0" id="menu" role="navigation">
+        <nav id="sidebar">
+            <div class="d-flex flex-column h-100">
+                <div class="sidebar-header">
+                    <a href="/" class="text-decoration-none">
+                        <h3>Quản lý khách sạn</h3>
+                    </a>
+                </div>
+
+                <ul class="nav flex-column flex-grow-1" id="menu" role="navigation">
                     <li class="nav-item">
-                        <a asp-controller="Manager" asp-action="Index" asp-route-manager="1" class="nav-link d-flex align-items-center text-white">
-                            <i class="bi bi-house-fill"></i><span class="ms-2">Home</span>
+                        <a asp-controller="Manager" asp-action="Index" asp-route-manager="1" class="nav-link">
+                            <i class="bi bi-house-fill"></i>
+                            <span>Home</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Nhanvien" asp-action="NhanvienList" class="nav-link d-flex align-items-center text-white">
-                            <i class="bi bi-people-fill"></i><span class="ms-2">Nhân viên</span>
+                        <a asp-controller="Nhanvien" asp-action="NhanvienList" class="nav-link">
+                            <i class="bi bi-people-fill"></i>
+                            <span>Nhân viên</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Client" asp-action="ClientList" asp-route-manager="1" class="nav-link d-flex align-items-center text-white">
-                            <i class="bi bi-person-circle"></i><span class="ms-2">Khách</span>
+                        <a asp-controller="Client" asp-action="ClientList" asp-route-manager="1" class="nav-link">
+                            <i class="bi bi-person-circle"></i>
+                            <span>Khách</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Room" asp-action="RoomList" asp-route-manager="1" class="nav-link d-flex align-items-center text-white">
-                            <i class="bi bi-building"></i><span class="ms-2">Phòng</span>
+                        <a asp-controller="Room" asp-action="RoomList" asp-route-manager="1" class="nav-link">
+                            <i class="bi bi-building"></i>
+                            <span>Phòng</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Rent" asp-action="Index" asp-route-manager="1" class="nav-link d-flex align-items-center text-white">
-                            <i class="bi bi-card-list"></i><span class="ms-2">Phiếu thuê</span>
+                        <a asp-controller="Rent" asp-action="Index" asp-route-manager="1" class="nav-link">
+                            <i class="bi bi-card-list"></i>
+                            <span>Phiếu thuê</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Bill" asp-action="Index" asp-route-manager="1" class="nav-link d-flex align-items-center text-white">
-                            <i class="bi bi-receipt"></i><span class="ms-2">Hóa Đơn</span>
+                        <a asp-controller="Bill" asp-action="Index" asp-route-manager="1" class="nav-link">
+                            <i class="bi bi-receipt"></i>
+                            <span>Hóa Đơn</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#submenu5" data-bs-toggle="collapse" aria-expanded="false" aria-controls="submenu5" class="nav-link d-flex align-items-center text-white">
-                            <i class="bi bi-flag"></i><span class="ms-2">Báo cáo</span>
+                        <a href="#submenu5" data-bs-toggle="collapse" class="nav-link">
+                            <i class="bi bi-flag"></i>
+                            <span>Báo cáo</span>
                         </a>
-                        <ul class="collapse nav flex-column ms-2" id="submenu5" data-bs-parent="#menu"> <!-- Giảm ms-3 → ms-2 để indent vừa -->
+                        <ul class="collapse nav flex-column" id="submenu5">
                             <li class="nav-item">
-                                <a asp-controller="SaleReport" asp-action="Index" asp-route-manager="1" class="nav-link d-flex align-items-center text-white">
-                                    <i class="bi bi-flag-fill"></i><span class="ms-1">Báo cáo doanh thu</span>
+                                <a asp-controller="SaleReport" asp-action="Index" asp-route-manager="1" class="nav-link">
+                                    <i class="bi bi-flag-fill"></i>
+                                    <span>Báo cáo doanh thu</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a asp-controller="Room" asp-action="RoomUsageReport" asp-route-manager="1" class="nav-link d-flex align-items-center text-white">
-                                    <i class="bi bi-flag-fill"></i><span class="ms-1">Báo cáo tỷ lệ dùng</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#submenu6" data-bs-toggle="collapse" aria-expanded="false" aria-controls="submenu6" class="nav-link d-flex align-items-center text-white">
-                            <i class="bi bi-file-ruled"></i><span class="ms-2">Quy Định</span>
-                        </a>
-                        <ul class="collapse nav flex-column ms-2" id="submenu6" data-bs-parent="#menu"> <!-- Giảm ms-3 → ms-2 -->
-                            <li class="nav-item">
-                                <a asp-controller="LoaiPhong" asp-action="RoomType" class="nav-link d-flex align-items-center text-white">
-                                    <i class="bi bi-file-ruled-fill"></i><span class="ms-1">Loại phòng</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="SettingLoaiKhach" asp-action="ClientType" class="nav-link d-flex align-items-center text-white">
-                                    <i class="bi bi-file-ruled-fill"></i><span class="ms-1">Loại khách</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="Phuthu" asp-action="Edit" asp-route-id="1" class="nav-link d-flex align-items-center text-white">
-                                    <i class="bi bi-file-ruled-fill"></i><span class="ms-1">Tỷ lệ phụ thu</span>
+                                <a asp-controller="Room" asp-action="RoomUsageReport" asp-route-manager="1" class="nav-link">
+                                    <i class="bi bi-flag-fill"></i>
+                                    <span>Báo cáo tỷ lệ dùng</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a asp-controller="Account" asp-action="Register" class="nav-link d-flex align-items-center text-white">
-                            <i class="bi bi-person-fill-add"></i><span class="ms-2">Cấp tài khoản</span>
+                        <a href="#submenu6" data-bs-toggle="collapse" class="nav-link">
+                            <i class="bi bi-file-ruled"></i>
+                            <span>Quy Định</span>
+                        </a>
+                        <ul class="collapse nav flex-column" id="submenu6">
+                            <li class="nav-item">
+                                <a asp-controller="LoaiPhong" asp-action="RoomType" class="nav-link">
+                                    <i class="bi bi-file-ruled-fill"></i>
+                                    <span>Loại phòng</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="SettingLoaiKhach" asp-action="ClientType" class="nav-link">
+                                    <i class="bi bi-file-ruled-fill"></i>
+                                    <span>Loại khách</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Phuthu" asp-action="Edit" asp-route-id="1" class="nav-link">
+                                    <i class="bi bi-file-ruled-fill"></i>
+                                    <span>Tỷ lệ phụ thu</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Account" asp-action="Register" class="nav-link">
+                            <i class="bi bi-person-fill-add"></i>
+                            <span>Cấp tài khoản</span>
                         </a>
                     </li>
                 </ul>
-                <li class="nav-item mt-auto">
-                    <a asp-controller="Account" asp-action="Logout" class="nav-link d-flex align-items-center text-white text-decoration-none">
-                        <i class="bi bi-box-arrow-left"></i><span class="ms-2">Đăng xuất</span>
+
+                <div class="logout-section">
+                    <a asp-controller="Account" asp-action="Logout" class="nav-link">
+                        <i class="bi bi-box-arrow-left"></i>
+                        <span>Đăng xuất</span>
                     </a>
-                </li>
+                </div>
             </div>
         </nav>
 
-        <!-- Main content -->
-        <main class="main-content flex-grow-1 py-3">
+        <!-- Main Content -->
+        <main class="main-content">
             @if (ViewContext.View != null)
             {
                 @RenderBody()
             }
             else
             {
-                <p>Không thể tải nội dung trang.</p>
+                <div class="alert alert-warning text-center">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    Không thể tải nội dung trang.
+                </div>
             }
         </main>
     </div>
@@ -261,49 +469,75 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-          const normalizePath = path => path.replace(/\/+$/, ''); // bỏ dấu '/' cuối
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.getElementById('menuToggle');
+            const overlay = document.getElementById('sidebarOverlay');
 
-          const currentUrl = normalizePath(new URL(window.location.href).pathname.toLowerCase());
+            // Active link highlighting
+            const normalizePath = path => path.replace(/\/+$/, '');
+            const currentUrl = normalizePath(new URL(window.location.href).pathname.toLowerCase());
 
-          document.querySelectorAll('#menu a[href]:not([href^="#"])').forEach(link => {
-            try {
-              const linkHref = normalizePath(new URL(link.href, window.location.origin).pathname.toLowerCase());
+            document.querySelectorAll('#menu a[href]:not([href^="#"])').forEach(link => {
+                try {
+                    const linkHref = normalizePath(new URL(link.href, window.location.origin).pathname.toLowerCase());
 
-              if (currentUrl === linkHref) {
-                link.classList.add('active');
+                    if (currentUrl === linkHref) {
+                        link.classList.add('active');
 
-                const parentCollapse = link.closest('.collapse');
-                if (parentCollapse) {
-                  parentCollapse.classList.add('show');
-
-                  const parentLi = parentCollapse.parentElement;
-                  const parentLink = parentLi.querySelector(`a[href="#${parentCollapse.id}"]`);
-                  if (parentLink) parentLink.classList.add('active');
+                        const parentCollapse = link.closest('.collapse');
+                        if (parentCollapse) {
+                            parentCollapse.classList.add('show');
+                            const parentLi = parentCollapse.parentElement;
+                            const parentLink = parentLi.querySelector(`a[href="#${parentCollapse.id}"]`);
+                            if (parentLink) parentLink.classList.add('active');
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Invalid href:', link.href);
                 }
-              }
-            } catch (e) {
-              console.warn('Invalid href:', link.href);
+            });
+
+            // Mobile menu toggle
+            if (menuToggle) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    sidebar.classList.toggle('show');
+                    overlay.classList.toggle('show');
+                });
             }
-          });
-        });
 
+            // Close sidebar when clicking overlay
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+            });
 
-        // Mobile toggle (giữ nguyên)
-        document.getElementById('menuToggle').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('show');
-        });
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth < 768 &&
+                    !e.target.closest('#sidebar') &&
+                    !e.target.closest('#menuToggle')) {
+                    sidebar.classList.remove('show');
+                    overlay.classList.remove('show');
+                }
+            });
 
-        // Ẩn sidebar khi click ngoài (mobile only)
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth < 768 && !e.target.closest('#sidebar') && !e.target.closest('#menuToggle')) {
-                document.getElementById('sidebar').classList.remove('show');
-            }
-        });
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) {
+                    sidebar.classList.remove('show');
+                    overlay.classList.remove('show');
+                }
+            });
 
-        // Xử lý resize window để reset sidebar nếu cần
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 768) {
-                document.getElementById('sidebar').classList.remove('show');
+            // Close sidebar after clicking a link on mobile
+            if (window.innerWidth < 768) {
+                document.querySelectorAll('#menu a:not([data-bs-toggle])').forEach(link => {
+                    link.addEventListener('click', () => {
+                        sidebar.classList.remove('show');
+                        overlay.classList.remove('show');
+                    });
+                });
             }
         });
     </script>

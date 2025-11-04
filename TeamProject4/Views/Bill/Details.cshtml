@@ -1,47 +1,364 @@
 ﻿@model Team_Project_4.Models.Hoadon
-
 @{
     ViewData["Title"] = "Details";
     Layout = "_BaseView";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<div class="d-flex justify-content-center align-items-start" style="min-height: 80vh;">
-    <div class="card shadow-sm border-light w-75 mt-5">
-        <div class="card-header bg-dark text-white text-center">
-            <h3 class="mb-0">CHI TIẾT HÓA ĐƠN</h3>
+<style>
+    * {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    .details-container {
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        min-height: 80vh;
+        padding: 2rem 1rem;
+    }
+
+    .details-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        max-width: 900px;
+        width: 100%;
+        overflow: hidden;
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    @@keyframes fadeInUp {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    .card-header-custom {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .card-header-custom::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        .card-header-custom h3 {
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+    .card-body-custom {
+        padding: 2.5rem;
+    }
+
+    .info-section {
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #667eea;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #e8ecf1;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+        .section-title i {
+            font-size: 1.25rem;
+        }
+
+    .info-row {
+        display: flex;
+        padding: 1rem 0;
+        border-bottom: 1px solid #f0f0f0;
+        transition: all 0.3s ease;
+    }
+
+        .info-row:hover {
+            background: #f8f9ff;
+            padding-left: 0.5rem;
+            border-left: 3px solid #667eea;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+    .info-label {
+        flex: 0 0 35%;
+        font-weight: 600;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+        .info-label i {
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+    .info-value {
+        flex: 1;
+        color: #555;
+        font-size: 1rem;
+    }
+
+    .highlight-value {
+        font-weight: 700;
+        font-size: 1.3rem;
+        color: #28a745;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+        .highlight-value i {
+            color: #28a745;
+        }
+
+    .surcharge-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        color: #d63031;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-weight: 700;
+    }
+
+    .days-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        color: #155724;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-weight: 700;
+    }
+
+    .card-footer-custom {
+        background: #f8f9fa;
+        padding: 1.5rem 2rem;
+        text-align: center;
+        border-top: 1px solid #e8ecf1;
+    }
+
+    .btn-back {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        color: #333;
+        padding: 0.875rem 2.5rem;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        text-decoration: none;
+    }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(252, 182, 159, 0.4);
+            color: #333;
+        }
+
+    .invoice-id-badge {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+    }
+
+        .invoice-id-badge i {
+            font-size: 1.3rem;
+        }
+
+    @@media (max-width: 768px) {
+        .card-header-custom h3
+
+    {
+        font-size: 1.4rem;
+    }
+
+    .card-body-custom {
+        padding: 1.5rem;
+    }
+
+    .info-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .info-label {
+        flex: none;
+    }
+
+    .btn-back {
+        width: 100%;
+        justify-content: center;
+    }
+
+    }
+</style>
+
+<div class="details-container">
+    <div class="details-card">
+        <div class="card-header-custom">
+            <h3>
+                <i class="fas fa-file-invoice-dollar me-3"></i>
+                CHI TIẾT HÓA ĐƠN
+            </h3>
         </div>
-        <div class="card-body">
-            <dl class="row mb-0">
-                <dt class="col-md-3 font-weight-bold">Tên Khách Hàng</dt>
-                <dd class="col-md-9">@Html.DisplayFor(model => model.Tenkh)</dd>
 
-                <dt class="col-md-3 font-weight-bold">CCCD</dt>
-                <dd class="col-md-9">@Html.DisplayFor(model => model.Cccd)</dd>
+        <div class="card-body-custom">
+            @if (Model?.Mahd != null)
+            {
+                <div class="text-center">
+                    <div class="invoice-id-badge">
+                        <i class="fas fa-hashtag"></i>
+                        <span>Mã hóa đơn: @Model.Mahd</span>
+                    </div>
+                </div>
+            }
 
-                <dt class="col-md-3 font-weight-bold">Tên Phòng</dt>
-                <dd class="col-md-9">@Html.DisplayFor(model => model.Tenphong)</dd>
+            <div class="info-section">
+                <div class="section-title">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Thông tin khách hàng</span>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-user"></i>
+                        <span>Tên Khách Hàng</span>
+                    </div>
+                    <div class="info-value">@Html.DisplayFor(model => model.Tenkh)</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-id-card"></i>
+                        <span>CCCD</span>
+                    </div>
+                    <div class="info-value">@Html.DisplayFor(model => model.Cccd)</div>
+                </div>
+            </div>
 
-                <dt class="col-md-3 font-weight-bold">Ngày Đến</dt>
-                <dd class="col-md-9">@Html.DisplayFor(model => model.Ngaydat)</dd>
+            <div class="info-section">
+                <div class="section-title">
+                    <i class="fas fa-door-open"></i>
+                    <span>Thông tin phòng</span>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-bed"></i>
+                        <span>Tên Phòng</span>
+                    </div>
+                    <div class="info-value">@Html.DisplayFor(model => model.Tenphong)</div>
+                </div>
+            </div>
 
-                <dt class="col-md-3 font-weight-bold">Ngày Đi</dt>
-                <dd class="col-md-9">@Html.DisplayFor(model => model.Ngaylaphd)</dd>
+            <div class="info-section">
+                <div class="section-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Thời gian lưu trú</span>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Ngày Đến</span>
+                    </div>
+                    <div class="info-value">@Html.DisplayFor(model => model.Ngaydat)</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-calendar-times"></i>
+                        <span>Ngày Đi</span>
+                    </div>
+                    <div class="info-value">@Html.DisplayFor(model => model.Ngaylaphd)</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-clock"></i>
+                        <span>Số Ngày Ở</span>
+                    </div>
+                    <div class="info-value">
+                        <span class="days-badge">
+                            @Html.DisplayFor(model => model.Songayo) ngày
+                        </span>
+                    </div>
+                </div>
+            </div>
 
-                <dt class="col-md-3 font-weight-bold">Số Ngày Ở</dt>
-                <dd class="col-md-9">@Html.DisplayFor(model => model.Songayo)</dd>
-
-                <dt class="col-md-3 font-weight-bold">Tổng Tiền</dt>
-                <dd class="col-md-9 text-success font-weight-bold">@Html.DisplayFor(model => model.Tongtien) VND</dd>
-
-                <dt class="col-md-3 font-weight-bold">Phụ Thu</dt>
-                <dd class="col-md-9">@Html.DisplayFor(model => model.Tylephuthu)%</dd>
-            </dl>
+            <div class="info-section">
+                <div class="section-title">
+                    <i class="fas fa-money-check-alt"></i>
+                    <span>Thông tin thanh toán</span>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-percent"></i>
+                        <span>Phụ Thu</span>
+                    </div>
+                    <div class="info-value">
+                        <span class="surcharge-badge">
+                            @Html.DisplayFor(model => model.Tylephuthu)%
+                        </span>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-label">
+                        <i class="fas fa-receipt"></i>
+                        <span>Tổng Tiền</span>
+                    </div>
+                    <div class="info-value highlight-value">
+                        <i class="fas fa-money-bill-wave"></i>
+                        @Html.DisplayFor(model => model.Tongtien) VND
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-footer text-center bg-light">
-            <a asp-action="Index" class="btn btn-warning">
-                <i class="bi bi-arrow-left"></i> Quay lại lịch sử hóa đơn
+
+        <div class="card-footer-custom">
+            <a asp-action="Index" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Quay lại lịch sử hóa đơn
             </a>
         </div>
     </div>
 </div>
-

@@ -3,87 +3,338 @@
     ViewData["Title"] = "Create room";
     Layout = "_BaseView";
 }
-<div class="text-center">
-    <h2 class="display-4">TẠO PHÒNG MỚI</h2>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    .page-header {
+        padding: 2.5rem 2rem;
+    }
+
+        .page-header h2 {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0;
+            text-align: center;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+    .input-group-text {
+        padding: 0.875rem 1.25rem;
+    }
+
+    .form-container {
+        background: white;
+        border-radius: 16px;
+        padding: 2.5rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+        .form-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.75rem;
+            display: block;
+            font-size: 0.95rem;
+        }
+
+            .form-group label i {
+                color: #667eea;
+                margin-right: 0.5rem;
+            }
+
+    .form-control {
+        border: 2px solid #e8ecf1;
+        border-radius: 10px;
+        padding: 0.875rem 1.25rem;
+        font-size: 0.95rem;
+        background: #f8f9fa;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+            background: white;
+        }
+
+    .text-danger {
+        font-size: 0.85rem;
+        color: #dc3545;
+        font-weight: 500;
+        margin-top: 0.5rem;
+        display: block;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid #f0f0f0;
+    }
+
+    .btn-action {
+        padding: 0.875rem 2.5rem;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .btn-primary-custom {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .btn-back {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        color: #333;
+    }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(252, 182, 159, 0.4);
+            color: #333;
+        }
+
+    .section-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #667eea;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #e8ecf1;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+        .section-title i {
+            font-size: 1.25rem;
+        }
+
+    .alert {
+        border: none;
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .alert-success {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        color: #155724;
+    }
+
+    .alert-danger {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        color: #721c24;
+    }
+
+    .alert i {
+        font-size: 1.25rem;
+    }
+
+   @@media (max-width: 768px) {
+        .page-header h2
+
+    {
+        font-size: 1.5rem;
+    }
+
+    .form-container {
+        padding: 1.5rem;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn-action {
+        width: 100%;
+        justify-content: center;
+    }
+
+    }
+
+   @@keyframes fadeInUp {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+</style>
+
+<div class="page-header">
+    <h2><i class="fas fa-door-open me-3"></i>TẠO PHÒNG MỚI</h2>
 </div>
 
-<div class="container mt-5">
-    <form asp-action="Create" method="post">
-        <div class="row mt-4">
-            <div class="col-md-6">              
-                <div class="form-group">
-                    <label asp-for="Tenphong" class="font-weight-bold">Tên phòng</label>
-                    <input type="text" asp-for="Tenphong" class="form-control" />
-                    <span asp-validation-for="Tenphong" class="text-danger"></span>
+<div class="container">
+    @* Hiển thị thông báo CreateSuccess / CreateError *@
+    @if (TempData["CreateSuccess"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i>
+            <span>@TempData["CreateSuccess"]</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["CreateError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>@TempData["CreateError"]</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="form-container">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+            <div class="form-section">
+                <div class="section-title">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Thông tin phòng</span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Maloaiphong" class="font-weight-bold">Loại phòng</label>
-                    <select class="form-control" asp-for="Maloaiphong" id="roomType" asp-items="ViewBag.RoomType"></select>
-                    <span asp-validation-for="Maloaiphong" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label class="font-weight-bold">Đơn giá</label>
-                    <div class="input-group">
-                        <input type="number" id="Price" class="form-control" readonly />
-                        <div class="input-group-append">
-                            <span class="input-group-text">VND</span>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Tenphong"><i class="fas fa-bed"></i>Tên phòng</label>
+                            <input type="text" asp-for="Tenphong" class="form-control" placeholder="Nhập tên phòng" />
+                            <span asp-validation-for="Tenphong" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Maloaiphong"><i class="fas fa-layer-group"></i>Loại phòng</label>
+                            <select asp-for="Maloaiphong" class="form-control" id="roomType" asp-items="ViewBag.RoomType"></select>
+                            <span asp-validation-for="Maloaiphong" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-money-bill-wave"></i>Đơn giá</label>
+                            <div class="input-group">
+                                <input type="number" id="Price" class="form-control" readonly />
+                                <div class="input-group-append">
+                                    <span class="input-group-text padding">VND</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Soluongkhachtoida"><i class="fas fa-users"></i>Số khách tối đa</label>
+                            <input asp-for="Soluongkhachtoida" type="number" id="numberCustomer" class="form-control" placeholder="Nhập số lượng tối đa" />
+                            <span asp-validation-for="Soluongkhachtoida" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Ghichu"><i class="fas fa-sticky-note"></i>Ghi chú</label>
+                            <input type="text" asp-for="Ghichu" class="form-control" placeholder="Thêm ghi chú nếu có" />
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label class="font-weight-bold" asp-for="Soluongkhachtoida">Số khách ở tối đa</label>
-                    <input asp-for="Soluongkhachtoida" type="number" id="numberCustomer" class="form-control">
-                    <span asp-validation-for="Soluongkhachtoida" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Ghichu" class="font-weight-bold">Ghi chú</label>
-                    <input type="text" asp-for="Ghichu" class="form-control" />
-                </div>
+
+            <div class="button-group">
+                <a asp-action="RoomList" asp-route-manager="@(TempData["Manager"]?.ToString())" class="btn btn-action btn-back">
+                    <i class="fas fa-arrow-left"></i>Quay lại danh sách
+                </a>
+                <button type="submit" asp-route-manager="@(TempData["Manager"]?.ToString())" class="btn btn-action btn-primary-custom">
+                    <i class="fas fa-save"></i>Tạo phòng
+                </button>
             </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-md-6 d-flex justify-content-start">
-                <a asp-action="RoomList" class="btn btn-warning btn-block mr-auto" asp-route-manager="@(TempData["Manager"].ToString())">Xem danh sách phòng</a>
-            </div>
-            <div class="col-md-6 d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary btn-block ml-auto" asp-route-manager="@(TempData["Manager"].ToString())">Tạo phòng</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
-<script>
-    document.getElementById("numberCustomer").value = 2;
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
-    var roomTypeDropdown = document.getElementById("roomType");
-    var priceField = document.getElementById("Price");
-    var roomTypes = @Html.Raw(Json.Serialize(ViewBag.RoomType));
-    var roomDongia = @Html.Raw(Json.Serialize(ViewBag.RoomType2));
+    <script>
+        // Giá trị mặc định số khách
+        document.getElementById("numberCustomer").value = 2;
 
-    // Initialize price with the smallest room's price
-    var smallestRoomId = Math.min(...roomDongia.map(room => parseInt(room.value)));
-    var smallestRoom = roomDongia.find(room => parseInt(room.value) === smallestRoomId);
-    priceField.value = smallestRoom.text;
+        // Xử lý giá phòng theo loại
+        var roomTypeDropdown = document.getElementById("roomType");
+        var priceField = document.getElementById("Price");
+        var roomTypes = @Html.Raw(Json.Serialize(ViewBag.RoomType));
+        var roomDongia = @Html.Raw(Json.Serialize(ViewBag.RoomType2));
 
-    roomTypeDropdown.addEventListener("change", function () {
-        var selectedType = this.value;
-        var selectedRoomType = roomTypes.find(function (roomType) {
-            return roomType.value === selectedType;
+        var smallestRoomId = Math.min(...roomDongia.map(room => parseInt(room.value)));
+        var smallestRoom = roomDongia.find(room => parseInt(room.value) === smallestRoomId);
+        priceField.value = smallestRoom.text;
+
+        roomTypeDropdown.addEventListener("change", function () {
+            var selectedType = this.value;
+            var selectedRoomType = roomTypes.find(roomType => roomType.value === selectedType);
+            if (selectedRoomType) {
+                var maloaiphong = selectedRoomType.value;
+                var dongia = roomDongia.find(room => room.value === maloaiphong);
+                if (dongia) {
+                    priceField.value = dongia.text;
+                }
+            }
         });
 
-        if (selectedRoomType) {
-            var maloaiphong = selectedRoomType.value;
-            var dongia = roomDongia.find(function (room) {
-                return room.value === maloaiphong;
+        // Hiệu ứng focus input
+        document.querySelectorAll('.form-control').forEach(function (input) {
+            input.addEventListener('focus', function () {
+                this.parentElement.style.transform = 'scale(1.02)';
+                this.parentElement.style.transition = 'all 0.3s ease';
             });
+            input.addEventListener('blur', function () {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
 
-            if (dongia) {
-                priceField.value = dongia.text;
-            }
-        }
-    });
-</script>
-
-
+        // Tự động ẩn alert sau 5 giây
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+    </script>
+}

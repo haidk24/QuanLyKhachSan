@@ -3,26 +3,153 @@
     Layout = "_BaseView";
 }
 
-<h2 style="text-align:center">LẬP HÓA ĐƠN</h2>
-<div class="row justify-content-center">
-    <div class="col-md-4">
-        <form asp-action="Test2" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Ngaylaphd" class="control-label">Ngày Lập Hóa Đơn</label>
-                <input asp-for="Ngaylaphd" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
-                <span asp-validation-for="Ngaylaphd" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CCCD" class="control-label">Nhập CCCD Khách Hàng</label>
-                <input asp-for="CCCD" class="form-control" />
-                <span asp-validation-for="CCCD" class="text-danger"></span>
-            </div>
-            <div class="form-group text-right">
-                <!-- Align button to the right -->
-                <button type="submit" class="btn btn-primary" >Tạo</button>
-            </div>
-        </form>
-    </div>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    .page-header {
+        padding: 2.5rem 2rem;
+    }
+
+        .page-header h2 {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0;
+            letter-spacing: 0.5px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+    .form-container {
+        background: white;
+        border-radius: 16px;
+        padding: 2.5rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        animation: fadeInUp 0.5s ease-out;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+        .form-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-size: 0.95rem;
+        }
+
+    .form-control {
+        border: 2px solid #e8ecf1;
+        border-radius: 10px;
+        padding: 0.875rem 1.25rem;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+
+        .form-control:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.15);
+        }
+
+        .form-control::placeholder {
+            color: #adb5bd;
+        }
+
+    .text-danger {
+        font-size: 0.85rem;
+        margin-top: 0.4rem;
+        display: block;
+        color: #dc3545;
+        font-weight: 500;
+    }
+
+    .btn-action {
+        padding: 0.875rem 2.5rem;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .btn-primary-custom {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        width: 100%;
+        justify-content: center;
+    }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+            color: white;
+        }
+
+    @@media (max-width: 768px) {
+        .form-container
+
+    {
+        padding: 1.5rem;
+    }
+
+    }
+
+    @@keyframes fadeInUp {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+</style>
+
+<div class="page-header">
+    <h2><i class="fas fa-file-invoice me-2"></i>LẬP HÓA ĐƠN</h2>
 </div>
+
+<div class="form-container">
+    <form asp-action="Test2" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="form-group">
+            <label asp-for="Ngaylaphd"><i class="fas fa-calendar-alt me-2 text-primary"></i>Ngày Lập Hóa Đơn</label>
+            <input asp-for="Ngaylaphd" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
+            <span asp-validation-for="Ngaylaphd" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CCCD"><i class="fas fa-id-card me-2 text-primary"></i>Nhập CCCD Khách Hàng</label>
+            <input asp-for="CCCD" class="form-control" placeholder="Nhập số CCCD của khách hàng..." />
+            <span asp-validation-for="CCCD" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn-action btn-primary-custom">
+                <i class="fas fa-plus-circle"></i> Tạo Hóa Đơn
+            </button>
+        </div>
+    </form>
+</div>
+
 

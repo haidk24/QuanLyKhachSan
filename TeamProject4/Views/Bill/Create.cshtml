@@ -1,72 +1,371 @@
 ﻿@model Team_Project_4.Models.Hoadon
-
 @{
     ViewData["Title"] = "Create";
     Layout = "_BaseView";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<h1 style="text-align:center">THANH TOÁN HÓA ĐƠN</h1>
+<style>
+    * {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
 
-<div class="container mt-5">
-    <form asp-action="Create" method="post">
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label asp-for="Tenkh" class="control-label">Tên Khách Hàng</label>
-                    <input name="Tenkh" class="form-control" value="@ViewBag.Makh" readonly />
-                    <span asp-validation-for="Tenkh" class="text-danger"></span>
+    .page-header {
+        padding: 2.5rem 2rem;
+    }
+
+        .page-header h2 {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0;
+            letter-spacing: 0.5px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+    .form-container {
+        background: white;
+        border-radius: 16px;
+        padding: 2.5rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+        .form-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.75rem;
+            display: block;
+            font-size: 0.95rem;
+        }
+
+            .form-group label i {
+                color: #667eea;
+                margin-right: 0.5rem;
+            }
+
+    .form-control {
+        border: 2px solid #e8ecf1;
+        border-radius: 10px;
+        padding: 0.875rem 1.25rem;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+
+        .form-control[readonly] {
+            background: #e9ecef;
+            cursor: not-allowed;
+            color: #495057;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+            background: white;
+        }
+
+    .text-danger {
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        display: block;
+        color: #dc3545;
+        font-weight: 500;
+    }
+
+    .btn-action {
+        padding: 0.875rem 2.5rem;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .btn-primary-custom {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+    }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+            color: white;
+        }
+
+    .btn-back {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        color: #333;
+        text-decoration: none;
+    }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(252, 182, 159, 0.4);
+            color: #333;
+        }
+
+    .button-group {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid #f0f0f0;
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #667eea;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #e8ecf1;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+        .section-title i {
+            font-size: 1.25rem;
+        }
+
+    .total-highlight {
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        border: 2px solid #28a745;
+        border-radius: 10px;
+        padding: 0.875rem 1.25rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #155724;
+        text-align: center;
+    }
+
+    .surcharge-highlight {
+        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+        border: 2px solid #ffc107;
+        border-radius: 10px;
+        padding: 0.875rem 1.25rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #856404;
+        text-align: center;
+    }
+
+    .days-highlight {
+        background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+        border: 2px solid #17a2b8;
+        border-radius: 10px;
+        padding: 0.875rem 1.25rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #0c5460;
+        text-align: center;
+    }
+
+    @@media (max-width: 768px) {
+        .page-header h2
+
+    {
+        font-size: 1.5rem;
+    }
+
+    .form-container {
+        padding: 1.5rem;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn-action {
+        width: 100%;
+        justify-content: center;
+    }
+
+    }
+
+    .form-container {
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    @@keyframes fadeInUp {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+</style>
+
+<div class="page-header">
+    <h2><i class="fas fa-money-check-alt me-3"></i>THANH TOÁN HÓA ĐƠN</h2>
+</div>
+
+<div class="container">
+    <div class="form-container">
+        <form asp-action="Create" method="post">
+            <div class="form-section">
+                <div class="section-title">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Thông tin khách hàng</span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Ngaydat" class="control-label">Ngày Đến</label>
-                    <input name="Ngaydat" class="form-control" value="@ViewBag.Ngaydat" readonly />
-                    <span asp-validation-for="Ngaydat" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Tenphong" class="control-label">Tên Phòng</label>
-                    <input name="Tenphong" class="form-control" value="@ViewBag.Mapt" readonly />
-                    <span asp-validation-for="Tenphong" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Tylephuthu" class="control-label">Phụ Thu</label>
-                    <input name="Tylephuthu" class="form-control" value="@ViewBag.Phuthu" readonly />
-                    <span asp-validation-for="Tylephuthu" class="text-danger"></span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Tenkh">
+                                <i class="fas fa-user"></i>Tên Khách Hàng
+                            </label>
+                            <input name="Tenkh" class="form-control" value="@ViewBag.Makh" readonly />
+                            <span asp-validation-for="Tenkh" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Cccd">
+                                <i class="fas fa-id-card"></i>CCCD
+                            </label>
+                            <input name="Cccd" class="form-control" value="@ViewBag.CCCD" readonly />
+                            <span asp-validation-for="Cccd" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label asp-for="Cccd" class="control-label">CCCD</label>
-                    <input name="Cccd" class="form-control" value="@ViewBag.CCCD" readonly />
-                    <span asp-validation-for="Cccd" class="text-danger"></span>
+
+            <div class="form-section">
+                <div class="section-title">
+                    <i class="fas fa-door-open"></i>
+                    <span>Thông tin phòng</span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Songayo" class="control-label">Số Ngày Ở</label>
-                    <input name="Songayo" class="form-control" value="@ViewBag.songay" readonly />
-                    <span asp-validation-for="Songayo" class="text-danger"></span>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Tenphong">
+                                <i class="fas fa-bed"></i>Tên Phòng
+                            </label>
+                            <input name="Tenphong" class="form-control" value="@ViewBag.Mapt" readonly />
+                            <span asp-validation-for="Tenphong" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Ngaylaphd" class="control-label">Ngày Đi</label>
-                    <input name="Ngaylaphd" class="form-control" value="@ViewBag.Ngaylaphd" readonly />
-                    <span asp-validation-for="Ngaylaphd" class="text-danger"></span>
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Thời gian lưu trú</span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Tongtien" class="control-label">Tổng Tiền</label>
-                    <input name="Tongtien" class="form-control" value="@ViewBag.Cost" readonly />
-                    <span asp-validation-for="Tongtien" class="text-danger"></span>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Ngaydat">
+                                <i class="fas fa-calendar-check"></i>Ngày Đến
+                            </label>
+                            <input name="Ngaydat" class="form-control" value="@ViewBag.Ngaydat" readonly />
+                            <span asp-validation-for="Ngaydat" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Ngaylaphd">
+                                <i class="fas fa-calendar-times"></i>Ngày Đi
+                            </label>
+                            <input name="Ngaylaphd" class="form-control" value="@ViewBag.Ngaylaphd" readonly />
+                            <span asp-validation-for="Ngaylaphd" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Songayo">
+                                <i class="fas fa-clock"></i>Số Ngày Ở
+                            </label>
+                            <div class="days-highlight">
+                                <i class="fas fa-calendar-day me-2"></i>
+                                @ViewBag.songay ngày
+                            </div>
+                            <input name="Songayo" type="hidden" value="@ViewBag.songay" />
+                            <span asp-validation-for="Songayo" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group"  style="display: none;">
+            </div>
+
+            <div class="form-section">
+                <div class="section-title">
+                    <i class="fas fa-money-check-alt"></i>
+                    <span>Thông tin thanh toán</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Tylephuthu">
+                                <i class="fas fa-percent"></i>Phụ Thu
+                            </label>
+                            <div class="surcharge-highlight">
+                                <i class="fas fa-plus-circle me-2"></i>
+                                @ViewBag.Phuthu%
+                            </div>
+                            <input name="Tylephuthu" type="hidden" value="@ViewBag.Phuthu" />
+                            <span asp-validation-for="Tylephuthu" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Tongtien">
+                                <i class="fas fa-receipt"></i>Tổng Tiền
+                            </label>
+                            <div class="total-highlight">
+                                <i class="fas fa-money-bill-wave me-2"></i>
+                                @ViewBag.Cost VND
+                            </div>
+                            <input name="Tongtien" type="hidden" value="@ViewBag.Cost" />
+                            <span asp-validation-for="Tongtien" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="display: none;">
                 <label asp-for="Manv" type="hidden" class="control-label">Nhân Viên Lập Hóa Đơn</label>
                 <select asp-for="Manv" class="form-control" asp-items="ViewBag.Manv" type="hidden" readonly></select>
                 <span asp-validation-for="Manv" class="text-danger"></span>
             </div>
+
+            <div class="button-group">
+                <a asp-action="Index" class="btn-action btn-back">
+                    <i class="fas fa-times-circle"></i>Hủy thanh toán
+                </a>
+                <button type="submit" class="btn-action btn-primary-custom">
+                    <i class="fas fa-check-circle"></i>Xác nhận thanh toán
+                </button>
             </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-md-6 d-flex justify-content-start">
-                <a asp-action="Index" class="btn btn-warning btn-block mr-auto">Hủy thanh toán hóa đơn</a>
-            </div>
-            <div class="col-md-6 d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary btn-block ml-auto">Thanh toán</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
