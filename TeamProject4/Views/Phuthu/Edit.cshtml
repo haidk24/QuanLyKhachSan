@@ -1,32 +1,369 @@
 ﻿@model Team_Project_4.Models.Phuthu
-
 @{
     ViewData["Title"] = "Thay đổi tỉ lệ phụ thu";
     Layout = "_ManagerLayout";
 }
-@if (ViewBag.success != null)
-{
-    <div class="alert alert-success" role="alert">
-        @ViewBag.success
-    </div>
-}
-<h1 class="text-center">TỶ LỆ PHỤ THỤ</h1>
 
-<div class="container mt-5">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    .page-header {
+        padding: 2.5rem 2rem;
+    }
+
+        .page-header h2 {
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0;
+            letter-spacing: 0.5px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+    .alert {
+        border: none;
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        animation: slideDown 0.3s ease-out;
+    }
+
+    @@keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .alert-success {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        color: #155724;
+    }
+
+        .alert-success i {
+            color: #28a745;
+            font-size: 1.25rem;
+        }
+
+    .content-card {
+        background: white;
+        border-radius: 16px;
+        padding: 2.5rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .info-box {
+        background: linear-gradient(135deg, #f8f9ff 0%, #fff 100%);
+        border-left: 4px solid #667eea;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+        .info-box h5 {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+            .info-box h5 i {
+                font-size: 1.2rem;
+            }
+
+        .info-box p {
+            color: #495057;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+    .form-section {
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #e8ecf1;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+        .section-title i {
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+        .form-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.75rem;
+            display: block;
+            font-size: 0.95rem;
+        }
+
+            .form-group label i {
+                color: #667eea;
+                margin-right: 0.5rem;
+            }
+
+        .form-group .input-wrapper {
+            position: relative;
+        }
+
+            .form-group .input-wrapper .input-icon {
+                position: absolute;
+                left: 1.25rem;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #667eea;
+                font-size: 1.1rem;
+            }
+
+    .form-control {
+        border: 2px solid #e8ecf1;
+        border-radius: 10px;
+        padding: 0.875rem 1.25rem 0.875rem 3.5rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+        width: 100%;
+    }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+            background: white;
+            outline: none;
+        }
+
+    .input-suffix {
+        position: absolute;
+        right: 1.25rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #667eea;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .text-danger {
+        font-size: 0.85rem;
+        margin-top: 0.5rem;
+        display: block;
+        color: #dc3545;
+        font-weight: 500;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid #f0f0f0;
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        padding: 0.875rem 2.5rem;
+        border-radius: 12px;
+        font-weight: 600;
+        color: white;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .current-value {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+        .current-value h6 {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .current-value .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .current-value .unit {
+            font-size: 1.5rem;
+            opacity: 0.9;
+        }
+
+    @@media (max-width: 768px) {
+        .page-header h2 {
+            font-size: 1.25rem;
+        }
+
+        .content-card {
+            padding: 1.5rem;
+        }
+
+        .current-value .value {
+            font-size: 2rem;
+        }
+
+        .button-group {
+            flex-direction: column;
+        }
+
+        .btn-submit {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="page-header">
+    <h2><i class="fas fa-percentage"></i> TỶ LỆ PHỤ THU</h2>
+</div>
+
+<div class="container">
+    @if (ViewBag.success != null)
+    {
+        <div class="alert alert-success" role="alert">
+            <i class="fas fa-check-circle"></i>
+            <span>@ViewBag.success</span>
+        </div>
+    }
+
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <form asp-action="Edit" asp-route-id="@Model.Idphuthu" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Idphuthu" value="@Model.Idphuthu" />
-                <div class="form-group">
-                    <label asp-for="Giatriphuthu" class="control-label">Tỷ Lệ Phụ Thu</label>
-                    <input asp-for="Giatriphuthu" class="form-control" />
-                    <span asp-validation-for="Giatriphuthu" class="text-danger"></span>
+        <div class="col-md-8 col-lg-6">
+            <div class="content-card">
+                <div class="info-box">
+                    <h5>
+                        <i class="fas fa-info-circle"></i>
+                        Thông tin
+                    </h5>
+                    <p>Tỷ lệ phụ thu được áp dụng khi số lượng khách vượt quá giới hạn quy định của phòng. Giá trị hiện tại sẽ được sử dụng để tính phụ thu trong hóa đơn.</p>
                 </div>
-                <div class="form-group d-flex justify-content-end mt-2">
-                    <button type="submit" class="btn btn-primary">Lưu</button>
+
+                <div class="current-value">
+                    <h6>Tỷ lệ phụ thu hiện tại</h6>
+                    <p class="value">@Model.Giatriphuthu<span class="unit">%</span></p>
                 </div>
-            </form>
+
+                <div class="section-title">
+                    <i class="fas fa-edit"></i>
+                    <span>Cập nhật tỷ lệ</span>
+                </div>
+
+                <form asp-action="Edit" asp-route-id="@Model.Idphuthu" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Idphuthu" value="@Model.Idphuthu" />
+
+                    <div class="form-group">
+                        <label asp-for="Giatriphuthu">
+                            <i class="fas fa-percentage"></i>Tỷ lệ phụ thu mới
+                        </label>
+                        <div class="input-wrapper">
+                            <i class="input-icon fas fa-calculator"></i>
+                            <input asp-for="Giatriphuthu"
+                                   type="number"
+                                   class="form-control"
+                                   placeholder="Nhập tỷ lệ phụ thu"
+                                   min="0"
+                                   max="100"
+                                   step="0.01" />
+                            <span class="input-suffix">%</span>
+                        </div>
+                        <span asp-validation-for="Giatriphuthu" class="text-danger"></span>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn-submit">
+                            <i class="fas fa-save"></i>
+                            Lưu thay đổi
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Add visual feedback when form is submitted
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const btn = this.querySelector('.btn-submit');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang lưu...';
+            btn.disabled = true;
+        });
+
+        // Add animation to form input on focus
+        document.querySelector('.form-control').addEventListener('focus', function() {
+            this.parentElement.style.transform = 'scale(1.02)';
+            this.parentElement.style.transition = 'all 0.3s ease';
+        });
+
+        document.querySelector('.form-control').addEventListener('blur', function() {
+            this.parentElement.style.transform = 'scale(1)';
+        });
+    </script>
+}

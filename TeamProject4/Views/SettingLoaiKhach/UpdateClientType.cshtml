@@ -1,33 +1,134 @@
 ﻿@model Loaikhach
 @{
-    ViewData["Title"] = "Create client";
+    ViewData["Title"] = "Update client";
     Layout = "_ManagerLayout";
 }
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="text-center">
-                <h2 class="display-4">CẬP NHẬT LOẠI KHÁCH</h2>
-            </div>
-            <form asp-action="UpdateClientType" method="post">
-                <div class="row mt-4">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label asp-for="Tenloaikhach" class="font-weight-bold">Tên khách</label>
-                            <input type="text" asp-for="Tenloaikhach" class="form-control" />
-                            <span asp-validation-for="Tenloaikhach" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-md-6 d-flex justify-content-start">
-                        <a asp-action="ClientType" class="btn btn-warning btn-block mr-auto">Xem danh sách loại khách</a>
-                    </div>
-                    <div class="col-md-6 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary btn-block ml-auto">Tạo</button>
-                    </div>
-                </div>
-            </form>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+<style>
+    * {
+        font-family: 'Inter', 'Segoe UI', sans-serif;
+    }
+
+    .form-container {
+        max-width: 700px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    }
+
+        .form-container h2 {
+            font-weight: 700;
+            font-size: 1.8rem;
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+    .form-group label {
+        font-weight: 600;
+        color: #667eea;
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    .form-control {
+        border-radius: 12px;
+        border: 1px solid #ced4da;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 6px rgba(102, 126, 234, 0.3);
+            outline: none;
+        }
+
+    .btn-action {
+        border-radius: 12px;
+        padding: 0.7rem 2rem;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+
+    .btn-warning {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        color: #333;
+        border: none;
+    }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(252, 182, 159, 0.4);
+            color: #333;
+        }
+
+    .button-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+    }
+
+    @@media (max-width: 576px) {
+        .button-row {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .btn-action {
+            width: 100%;
+        }
+    }
+
+    .text-danger {
+        font-size: 0.85rem;
+    }
+</style>
+
+<div class="form-container">
+    <h2>CẬP NHẬT LOẠI KHÁCH</h2>
+
+    <form asp-action="UpdateClientType" method="post">
+        <div class="form-group">
+            <label asp-for="Tenloaikhach">Tên khách</label>
+            <input asp-for="Tenloaikhach" class="form-control" />
+            <span asp-validation-for="Tenloaikhach" class="text-danger"></span>
         </div>
-    </div>
+
+        <div class="button-row">
+            <a asp-action="ClientType" class="btn-action btn-warning">
+                <i class="fas fa-list"></i> Xem danh sách loại khách
+            </a>
+            <button type="submit" class="btn-action btn-primary">
+                <i class="fas fa-edit"></i> Cập nhật
+            </button>
+        </div>
+    </form>
 </div>
