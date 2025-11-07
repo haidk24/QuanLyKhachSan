@@ -1,0 +1,3 @@
+ALTER TABLE Khachhang 
+ADD AnhCccdMatTruoc NVARCHAR(255) NULL,
+    AnhCccdMatSau NVARCHAR(255) NULL;

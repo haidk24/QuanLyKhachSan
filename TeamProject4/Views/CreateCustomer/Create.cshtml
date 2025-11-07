@@ -130,6 +130,58 @@
         font-weight: 500;
     }
 
+    /* File Input Styles */
+    input[type="file"].form-control {
+        padding: 0.5rem;
+        background: white;
+        cursor: pointer;
+        border: 2px dashed #667eea;
+    }
+
+        input[type="file"].form-control::-webkit-file-upload-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            margin-right: 1rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        input[type="file"].form-control::-webkit-file-upload-button:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+
+    /* Image Preview Styles */
+    .image-preview-container {
+        margin-top: 1rem;
+        text-align: center;
+    }
+
+        .image-preview-container img {
+            max-width: 300px;
+            max-height: 200px;
+            border-radius: 8px;
+            border: 2px solid #e8ecf1;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .image-preview-container .remove-btn {
+            margin-top: 0.5rem;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+            .image-preview-container .remove-btn:hover {
+                background: #c82333;
+            }
+
     .btn-action {
         padding: 0.875rem 2.5rem;
         border-radius: 12px;
@@ -204,7 +256,7 @@
 
 <div class="container">
     <div class="form-container">
-        <form asp-action="Create" method="post">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
             <div class="form-section">
                 <div class="section-title">
                     <i class="fas fa-user-circle"></i>
@@ -260,6 +312,42 @@
                             </label>
                             <input type="text" asp-for="Diachikh" class="form-control" placeholder="Nhập địa chỉ chi tiết" />
                             <span asp-validation-for="Diachikh" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="anhCccdMatTruoc">
+                                <i class="fas fa-camera"></i>Ảnh CCCD mặt trước
+                            </label>
+                            <input type="file" id="anhCccdMatTruoc" name="AnhCccdMatTruocFile" class="form-control" 
+                                   accept="image/*" onchange="previewImage(this, 'previewMatTruoc', 'imagePreviewMatTruoc')" />
+                            <small class="text-muted">Chọn file ảnh mặt trước CCCD (JPG, PNG, GIF) - Tối đa 5MB</small>
+                            <div id="imagePreviewMatTruoc" class="image-preview-container" style="display: none;">
+                                <img id="previewMatTruoc" src="#" alt="Preview ảnh CCCD mặt trước" />
+                                <br>
+                                <button type="button" class="remove-btn" onclick="removeImage('anhCccdMatTruoc', 'imagePreviewMatTruoc', 'previewMatTruoc')">
+                                    <i class="fas fa-times"></i> Xóa ảnh
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="anhCccdMatSau">
+                                <i class="fas fa-camera"></i>Ảnh CCCD mặt sau
+                            </label>
+                            <input type="file" id="anhCccdMatSau" name="AnhCccdMatSauFile" class="form-control" 
+                                   accept="image/*" onchange="previewImage(this, 'previewMatSau', 'imagePreviewMatSau')" />
+                            <small class="text-muted">Chọn file ảnh mặt sau CCCD (JPG, PNG, GIF) - Tối đa 5MB</small>
+                            <div id="imagePreviewMatSau" class="image-preview-container" style="display: none;">
+                                <img id="previewMatSau" src="#" alt="Preview ảnh CCCD mặt sau" />
+                                <br>
+                                <button type="button" class="remove-btn" onclick="removeImage('anhCccdMatSau', 'imagePreviewMatSau', 'previewMatSau')">
+                                    <i class="fas fa-times"></i> Xóa ảnh
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -319,5 +407,40 @@
                 this.parentElement.style.transform = 'scale(1)';
             });
         });
+
+        // Image preview function
+        function previewImage(input, previewId, containerId) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                // Validate file size (5MB = 5 * 1024 * 1024 bytes)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File quá lớn! Vui lòng chọn file nhỏ hơn 5MB.');
+                    input.value = '';
+                    return;
+                }
+                
+                // Validate file type
+                if (!file.type.match('image.*')) {
+                    alert('Vui lòng chọn file ảnh (JPG, PNG, GIF)!');
+                    input.value = '';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(previewId).src = e.target.result;
+                    document.getElementById(containerId).style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Remove image function
+        function removeImage(inputId, containerId, previewId) {
+            document.getElementById(inputId).value = '';
+            document.getElementById(containerId).style.display = 'none';
+            document.getElementById(previewId).src = '#';
+        }
     </script>
 }

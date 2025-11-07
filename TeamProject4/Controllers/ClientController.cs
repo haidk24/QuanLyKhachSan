@@ -109,9 +109,43 @@ namespace Team_Project_4.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Khachhang khach, int manager)
+        public async Task<IActionResult> Create(Khachhang khach, int manager, IFormFile AnhCccdMatTruocFile, IFormFile AnhCccdMatSauFile)
         {
             TempData["Manager"] = manager;
+            
+            // Xử lý upload ảnh CCCD mặt trước
+            if (AnhCccdMatTruocFile != null && AnhCccdMatTruocFile.Length > 0)
+            {
+                var result = await ProcessImageUpload(AnhCccdMatTruocFile, "mặt trước");
+                if (result.IsError)
+                {
+                    ModelState.AddModelError("AnhCccdMatTruoc", result.ErrorMessage);
+                    await ReloadViewBags();
+                    return View(khach);
+                }
+                khach.AnhCccdMatTruoc = result.FilePath;
+            }
+            
+            // Xử lý upload ảnh CCCD mặt sau
+            if (AnhCccdMatSauFile != null && AnhCccdMatSauFile.Length > 0)
+            {
+                var result = await ProcessImageUpload(AnhCccdMatSauFile, "mặt sau");
+                if (result.IsError)
+                {
+                    ModelState.AddModelError("AnhCccdMatSau", result.ErrorMessage);
+                    
+                    // Xóa ảnh mặt trước đã upload nếu có lỗi ở mặt sau
+                    if (!string.IsNullOrEmpty(khach.AnhCccdMatTruoc))
+                    {
+                        DeleteImageFile(khach.AnhCccdMatTruoc);
+                    }
+                    
+                    await ReloadViewBags();
+                    return View(khach);
+                }
+                khach.AnhCccdMatSau = result.FilePath;
+            }
+            
             khach.MaloaikhachNavigation = await clientRepo.GetClientTypeById(khach.Maloaikhach);
 
             if (string.IsNullOrEmpty(khach.Tenkh))
@@ -170,19 +204,73 @@ namespace Team_Project_4.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Khachhang khach,int manager, int clientid, int value1)
+        public async Task<IActionResult> Update(Khachhang khach, int manager, int clientid, int value1, IFormFile AnhCccdMatTruocFile, IFormFile AnhCccdMatSauFile)
         {
             khach.Makh = clientid;
-            /*
-            if (!ModelState.IsValid)
-            {
-                var clientTypes = await clientRepo.GetAllLoaikhach(); // Fetch client types again
-                ViewBag.ClientType = new SelectList(clientTypes, "Maloaikhach", "Tenloaikhach");
-                var rooms = roomRepo.GetAllAsync();
-                ViewBag.ClientRoom = new SelectList(rooms, "Map", "Tenphong");
-                return View(khach);
-            }*/
+
+            // Lấy thông tin khách hàng hiện tại để có ảnh cũ
+            var existingClient = await clientRepo.GetByIdAsync(clientid);
             
+            // Xử lý upload ảnh CCCD mặt trước mới
+            if (AnhCccdMatTruocFile != null && AnhCccdMatTruocFile.Length > 0)
+            {
+                var result = await ProcessImageUpload(AnhCccdMatTruocFile, "mặt trước");
+                if (result.IsError)
+                {
+                    ModelState.AddModelError("AnhCccdMatTruoc", result.ErrorMessage);
+                    TempData["TempMapt"] = value1;
+                    TempData["Manager"] = manager;
+                    var clientTypes = await clientRepo.GetAllLoaikhach();
+                    ViewBag.ClientType = new SelectList(clientTypes, "Maloaikhach", "Tenloaikhach");
+                    var rooms = roomRepo.GetAllAsync();
+                    ViewBag.ClientRoom = new SelectList(rooms, "Map", "Tenphong");
+                    return View(khach);
+                }
+
+                // Xóa ảnh mặt trước cũ nếu tồn tại
+                if (!string.IsNullOrEmpty(existingClient.AnhCccdMatTruoc))
+                {
+                    DeleteImageFile(existingClient.AnhCccdMatTruoc);
+                }
+
+                khach.AnhCccdMatTruoc = result.FilePath;
+            }
+            else
+            {
+                // Giữ nguyên ảnh mặt trước cũ nếu không upload ảnh mới
+                khach.AnhCccdMatTruoc = existingClient.AnhCccdMatTruoc;
+            }
+
+            // Xử lý upload ảnh CCCD mặt sau mới
+            if (AnhCccdMatSauFile != null && AnhCccdMatSauFile.Length > 0)
+            {
+                var result = await ProcessImageUpload(AnhCccdMatSauFile, "mặt sau");
+                if (result.IsError)
+                {
+                    ModelState.AddModelError("AnhCccdMatSau", result.ErrorMessage);
+                    TempData["TempMapt"] = value1;
+                    TempData["Manager"] = manager;
+                    var clientTypes = await clientRepo.GetAllLoaikhach();
+                    ViewBag.ClientType = new SelectList(clientTypes, "Maloaikhach", "Tenloaikhach");
+                    var rooms = roomRepo.GetAllAsync();
+                    ViewBag.ClientRoom = new SelectList(rooms, "Map", "Tenphong");
+                    return View(khach);
+                }
+
+                // Xóa ảnh mặt sau cũ nếu tồn tại
+                if (!string.IsNullOrEmpty(existingClient.AnhCccdMatSau))
+                {
+                    DeleteImageFile(existingClient.AnhCccdMatSau);
+                }
+
+                khach.AnhCccdMatSau = result.FilePath;
+            }
+            else
+            {
+                // Giữ nguyên ảnh mặt sau cũ nếu không upload ảnh mới
+                khach.AnhCccdMatSau = existingClient.AnhCccdMatSau;
+            }
+
             await clientRepo.UpdateAsync(khach,clientid);
             return RedirectToAction("ClientList", new { rentid=value1});
         }
@@ -197,6 +285,24 @@ namespace Team_Project_4.Controllers
             }
             else
             {
+                // Lấy thông tin khách hàng trước khi xóa để có đường dẫn ảnh
+                var client = await clientRepo.GetByIdAsync(clientid);
+                
+                // Xóa ảnh CCCD nếu tồn tại
+                if (client != null)
+                {
+                    if (!string.IsNullOrEmpty(client.AnhCccdMatTruoc))
+                    {
+                        DeleteImageFile(client.AnhCccdMatTruoc);
+                    }
+                    
+                    if (!string.IsNullOrEmpty(client.AnhCccdMatSau))
+                    {
+                        DeleteImageFile(client.AnhCccdMatSau);
+                    }
+                }
+                
+                // Xóa khách hàng
                 await clientRepo.DeleteAsync(clientid);
             }
 
@@ -217,6 +323,72 @@ namespace Team_Project_4.Controllers
             }
 
             return View(client);
+        }
+
+        // Helper method to process image upload
+        private async Task<(bool IsError, string ErrorMessage, string FilePath)> ProcessImageUpload(IFormFile imageFile, string imageName)
+        {
+            // Kiểm tra kích thước file (tối đa 5MB)
+            if (imageFile.Length > 5 * 1024 * 1024)
+            {
+                return (true, $"File ảnh {imageName} quá lớn. Vui lòng chọn file nhỏ hơn 5MB.", null);
+            }
+
+            // Kiểm tra định dạng file
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+            var fileExtension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                return (true, $"Chỉ chấp nhận file ảnh {imageName} có định dạng JPG, PNG hoặc GIF.", null);
+            }
+
+            // Tạo thư mục uploads nếu chưa tồn tại
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "cccd");
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            // Tạo tên file unique
+            var uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            // Lưu file
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(fileStream);
+            }
+
+            return (false, null, "/uploads/cccd/" + uniqueFileName);
+        }
+
+        // Helper method to delete image file
+        private void DeleteImageFile(string imagePath)
+        {
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+                var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imagePath.TrimStart('/'));
+                if (System.IO.File.Exists(fullPath))
+                {
+                    try
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+                    catch (Exception)
+                    {
+                        // Log error but continue
+                    }
+                }
+            }
+        }
+
+        // Helper method to reload ViewBags
+        private async Task ReloadViewBags()
+        {
+            var clientTypes = await clientRepo.GetAllLoaikhach();
+            var roomList = await roomRepo.GetAllAsync().ToListAsync();
+            ViewBag.ClientType = new SelectList(clientTypes, "Maloaikhach", "Tenloaikhach");
+            ViewBag.ClientRoom = new SelectList(roomList, "Map", "Tenphong");
         }
     }
 }

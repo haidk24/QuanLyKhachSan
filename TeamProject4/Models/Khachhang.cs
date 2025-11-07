@@ -21,6 +21,8 @@ namespace Team_Project_4.Models
         public string? Diachikh { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập cccd")]
         public string Cmndkh { get; set; }
+        public string? AnhCccdMatTruoc { get; set; }
+        public string? AnhCccdMatSau { get; set; }
         public int Maloaikhach { get; set; }
         public int Map { get; set; }
 

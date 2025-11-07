@@ -44,6 +44,8 @@ namespace Team_Project_4.Repositories
                 Tuoi = khach.Tuoi,
                 Diachikh = khach.Diachikh,
                 Cmndkh = khach.Cmndkh,
+                AnhCccdMatTruoc = khach.AnhCccdMatTruoc,
+                AnhCccdMatSau = khach.AnhCccdMatSau,
                 Phieuthues = khach.Phieuthues,
             });
 
@@ -65,23 +67,20 @@ namespace Team_Project_4.Repositories
 
             if (existingKhach != null)
             {
-                var existingKhachProperties = existingKhach.GetType().GetProperties();
-                var khachUpdateProperties = khachUpdate.GetType().GetProperties();
+                // Cập nhật từng property một cách rõ ràng, tránh navigation properties
+                existingKhach.Tenkh = khachUpdate.Tenkh;
+                existingKhach.Tuoi = khachUpdate.Tuoi;
+                existingKhach.Tel = khachUpdate.Tel;
+                existingKhach.Diachikh = khachUpdate.Diachikh;
+                existingKhach.Cmndkh = khachUpdate.Cmndkh;
+                existingKhach.Maloaikhach = khachUpdate.Maloaikhach;
+                existingKhach.Map = khachUpdate.Map;
+                existingKhach.AnhCccdMatTruoc = khachUpdate.AnhCccdMatTruoc;
+                existingKhach.AnhCccdMatSau = khachUpdate.AnhCccdMatSau;
 
-                foreach (var property in existingKhachProperties)
-                {
-                    var correspondingProperty = khachUpdateProperties.FirstOrDefault(p => p.Name == property.Name);
-                    if (correspondingProperty != null && correspondingProperty.CanWrite)
-                    {
-                        var value = correspondingProperty.GetValue(khachUpdate);
-                        property.SetValue(existingKhach, value);
-                    }
-                }
+                // Không cần update navigation properties, chỉ cần foreign key
+                // EF sẽ tự động load navigation khi cần
 
-                // Retrieve the associated Loaikhach entity without creating a new instance
-                existingKhach.MaloaikhachNavigation = await _loaikhachRepo.GetByIdAsync(khachUpdate.Maloaikhach);
-
-                _dbContext.Khachhangs.Update(existingKhach);
                 await _dbContext.SaveChangesAsync();
             }
         }
