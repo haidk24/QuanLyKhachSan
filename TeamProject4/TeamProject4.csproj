@@ -21,4 +21,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\pexels-beyzaerdem-19849574.jpg" />
+  </ItemGroup>
+
 </Project>

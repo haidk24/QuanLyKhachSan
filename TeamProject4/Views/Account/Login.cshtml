@@ -8,7 +8,12 @@
 
 <style>
     body {
-        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        background-image: url('/images/pexels-beyzaerdem-19849574.jpg');
+        backdrop-filter: blur(5px);
+        backdrop-filter: brightness(0.4);
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
         height: 100vh;
         margin: 0;
         display: flex;
@@ -17,79 +22,121 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    .card-container{
-
+    .card-container {
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
     .login-card {
-        background: #fff;
+        background: rgba(50, 50, 50, 0.8);
         border-radius: 20px;
         padding: 40px 30px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         width: 100%;
         max-width: 400px;
         animation: fadeIn 0.6s ease-in-out;
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
+
+        .login-card h2 {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
 
     @@keyframes fadeIn {
-        from
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
 
-    {
-        opacity: 0;
-        transform: translateY(20px);
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .form-label {
+        color: #e0e0e0;
+        font-weight: 500;
     }
 
+    .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        border-radius: 0 10px 10px 0;
     }
 
-    .form-control:focus {
-        border-color: #2575fc;
-        box-shadow: 0 0 8px rgba(37, 117, 252, 0.3);
-    }
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #d4af37;
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+            color: #ffffff;
+        }
 
     .input-group-text {
-        background: #f1f1f1;
-        border: none;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-right: none;
         border-radius: 10px 0 0 10px;
     }
 
     .btn-login {
-        background: #2575fc;
-        color: white;
+        background: linear-gradient(135deg, #d4af37 0%, #aa8c2c 100%);
+        color: #1a1a1a;
         border-radius: 10px;
         transition: 0.3s;
+        font-weight: 600;
+        border: none;
     }
 
         .btn-login:hover {
-            background: #1A3D64;
-            color: white;
+            background: linear-gradient(135deg, #f0c84a 0%, #c9a945 100%);
+            color: #1a1a1a;
             transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.6);
         }
 
     .toggle-password {
-        background: none;
-        border: none;
-        color: #2575fc;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-left: none;
+        color: #d4af37;
+        cursor: pointer;
     }
+
+        .toggle-password:hover {
+            color: #f0c84a;
+        }
 
     .form-icon {
         width: 40px;
         display: flex;
         justify-content: center;
         align-items: center;
-        color: #2575fc;
+        color: #d4af37;
+    }
+
+    .alert-danger {
+        background: rgba(220, 53, 69, 0.2);
+        border: 1px solid rgba(220, 53, 69, 0.4);
+        color: #ff6b6b;
+    }
+
+    .text-danger {
+        color: #ff6b6b !important;
     }
 </style>
+
 <div class="card-container">
     <div class="login-card">
-        <h2 class="text-center mb-4">Đăng nhập</h2>
+        <h2 class="text-center mb-7">WELCOME !</h2>
 
         @if (!string.IsNullOrEmpty(ViewBag.error))
         {
@@ -132,7 +179,6 @@
         </form>
     </div>
 </div>
-
 
 @section Scripts {
     <script>
